@@ -31,6 +31,7 @@ public class Article {
     @Column(name="dateCreated")
     private Date date=new Date();
 
+    /*Tag reference*/
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -40,6 +41,18 @@ public class Article {
             joinColumns = { @JoinColumn(name = "article_id") },
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private Set<Tag> tags = new HashSet<>();
+
+    /*country reference*/
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "article_countries",
+            joinColumns = { @JoinColumn(name = "article_id") },
+            inverseJoinColumns = { @JoinColumn(name = "country_id") })
+    private Set<Country>countries  = new HashSet<>();
+
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
         this.titre = titre;
