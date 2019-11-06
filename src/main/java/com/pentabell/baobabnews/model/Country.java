@@ -19,10 +19,10 @@ public class Country {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
+
+                    CascadeType.ALL
             },
-            mappedBy = "country")
+            mappedBy = "countries")
     private Set<Article> articles = new HashSet<>();
 
     //category reference
@@ -31,7 +31,7 @@ public class Country {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "category")
+            mappedBy = "countries")
     private Set<Category> categories = new HashSet<>();
 
     public int getId() {

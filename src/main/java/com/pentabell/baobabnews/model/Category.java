@@ -21,7 +21,7 @@ public class Category {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "catagory")
+            mappedBy = "categories")
     private Set<Article> articles = new HashSet<>();
 
 
