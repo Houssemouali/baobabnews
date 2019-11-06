@@ -22,8 +22,17 @@ public class Country {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "tags")
+            mappedBy = "country")
     private Set<Article> articles = new HashSet<>();
+
+    //category reference
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "category")
+    private Set<Category> categories = new HashSet<>();
 
     public int getId() {
         return id;

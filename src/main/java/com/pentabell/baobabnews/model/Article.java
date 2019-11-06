@@ -53,6 +53,17 @@ public class Article {
             inverseJoinColumns = { @JoinColumn(name = "country_id") })
     private Set<Country>countries  = new HashSet<>();
 
+    /*Category reference*/
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "article_categories",
+            joinColumns = { @JoinColumn(name = "article_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private Set<Category>categories  = new HashSet<>();
+
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
         this.titre = titre;

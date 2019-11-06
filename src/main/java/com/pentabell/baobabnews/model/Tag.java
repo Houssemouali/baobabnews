@@ -23,7 +23,7 @@ public class Tag {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "tags")
+            mappedBy = "tag")
     private Set<Article> posts = new HashSet<>();
 
 
