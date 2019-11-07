@@ -17,6 +17,8 @@ public class BookedArticle implements Serializable {
     @MapsId("ArticleID")
     private Article articles;
 
+
+    //test de push pull sur dell et lenovo
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
