@@ -7,10 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-@Entity
+
 @Table(name="user")
-public class User {
+@Inheritance(strategy=InheritanceType.JOINED)
+@MappedSuperclass
+public abstract class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long IdUser;
@@ -19,15 +22,18 @@ public class User {
     @NotBlank
     @Size(max = 50)
     @Email
+    @Column(name = "email")
     private String email;
 
     @NotBlank
     @Size(min=3, max = 50)
+    @Column(name = "username")
     private String username;
 
     @JsonIgnore
     @NotBlank
     @Size(min=6, max = 100)
+    @Column(name = "password")
     private String password;
 
 

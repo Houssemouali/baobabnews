@@ -64,6 +64,10 @@ public class Article {
             inverseJoinColumns = { @JoinColumn(name = "category_id") })
     private Set<Category>categories  = new HashSet<>();
 
+    /*internaute reference to article bookmarks*/
+   @OneToMany(mappedBy = "article",cascade = CascadeType.ALL,orphanRemoval = true)
+   private Set<BookedArticle> bookmarks  = new HashSet<>();
+
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
         this.titre = titre;

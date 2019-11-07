@@ -1,9 +1,9 @@
 package com.pentabell.baobabnews.Repositories;
 
-import com.pentabell.baobabnews.model.Tag;
+import com.pentabell.baobabnews.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TagRepository extends JpaRepository<Tag,Long> {
+public interface UserRepository extends JpaRepository<User,Long> {
 }
