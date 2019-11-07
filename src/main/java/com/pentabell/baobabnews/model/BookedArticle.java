@@ -22,7 +22,7 @@ public class BookedArticle implements Serializable {
     @JoinColumn
     @MapsId("InternauteID")
     private Internaute Internautes;
-
+//test lenovo
     @Column(name="DateSaved")
     @CreationTimestamp
     private LocalDateTime saved_date;
