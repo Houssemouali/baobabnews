@@ -13,12 +13,13 @@ import java.io.Serializable;
 @Table(name="user")
 @Inheritance(strategy=InheritanceType.JOINED)
 @MappedSuperclass
+@IdClass(User.class)
 public abstract class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long IdUser;
 
-    @NaturalId
+
     @NotBlank
     @Size(max = 50)
     @Email

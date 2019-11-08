@@ -1,19 +1,22 @@
 package com.pentabell.baobabnews.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.dom4j.tree.AbstractEntity;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.w3c.dom.Text;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "Article_ID", unique = true, nullable = false)
     private long IdArticle;
 
     @NotNull
@@ -42,6 +45,10 @@ public class Article {
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private Set<Tag> tags = new HashSet<>();
 
+    /*Article language*/
+    @ManyToOne
+    @JoinColumn(name="language_id",nullable=false)
+    private Language LanguageArticle;
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -65,8 +72,10 @@ public class Article {
     private Set<Category>categories  = new HashSet<>();
 
     /*internaute reference to article bookmarks*/
-   @OneToMany(mappedBy = "article",cascade = CascadeType.ALL,orphanRemoval = true)
-   private Set<BookedArticle> bookmarks  = new HashSet<>();
+//
+//   @OneToMany(mappedBy = "articlePK",
+//           orphanRemoval = true, cascade=CascadeType.ALL)
+//   public Set<BookedArticle> bookmarks  = new HashSet<>();
 
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
