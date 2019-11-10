@@ -72,10 +72,10 @@ public class Article implements Serializable {
     private Set<Category>categories  = new HashSet<>();
 
     /*internaute reference to article bookmarks*/
-//
-//   @OneToMany(mappedBy = "articlePK",
-//           orphanRemoval = true, cascade=CascadeType.ALL)
-//   public Set<BookedArticle> bookmarks  = new HashSet<>();
+
+   @OneToMany(mappedBy = "articles",
+           orphanRemoval = true, cascade=CascadeType.PERSIST)
+   public Set<BookedArticle> internautes  = new HashSet<>();
 
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {

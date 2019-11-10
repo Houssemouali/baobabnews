@@ -10,34 +10,32 @@ import java.util.Objects;
 import java.util.Set;
 
 
-//@Entity
-//@Table(name="BookedArticle")
-//@AssociationOverrides({
-//        @AssociationOverride(name = "articlePK",
-//                joinColumns = @JoinColumn(name = "Article_ID")),
-//        @AssociationOverride(name = "internautePK",
-//                joinColumns = @JoinColumn(name = "Internaute_ID")) })
-public class BookedArticle implements Serializable  {
+@Entity
+@Table(name="BookedArticle")
+public class BookedArticle{
     @EmbeddedId
     private ArticleBookedID idbook=new ArticleBookedID();
 
 
-//    @ManyToOne(fetch = FetchType.LAZY,
-//            targetEntity=Article.class)
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            targetEntity=Article.class)
 //    @JoinColumn(
 //      name = "IdArticle", insertable = false, updatable = false)
-//    @MapsId("ArticleID")
-//    Set<Article> articles;
-//
-//
-//    @ManyToOne(fetch = FetchType.LAZY,
-//            targetEntity=Internaute.class)
+    @MapsId("ArticleID")
+    Set<Article> articles;
+
+
+    @ManyToOne(fetch = FetchType.LAZY,
+           targetEntity=Internaute.class,
+            cascade = CascadeType.PERSIST)
+            @MapsId("internauteID")
 //    @JoinColumn(name = "id", insertable = false, updatable = false)
 //   @MapsId("InternauteID")
-//    Set<Internaute> internautes;
+    Set<Internaute> internautes;
 
 //test lenovo
-    @Column(name="DateSaved")
+    @Column(name="ArticleDateSaved")
     @CreationTimestamp
     private LocalDateTime saved_date;
 
@@ -50,21 +48,21 @@ public class BookedArticle implements Serializable  {
     public void setIdbook(ArticleBookedID idbook) {
         this.idbook = idbook;
     }
-    @Transient
-    public Article getArticle(Article article){
-        return getIdbook().getArticleID();
-    }
-
-    public void setArticle(Article article){
-        getIdbook().setArticleID(article);
-    }
-    @Transient
-    public Internaute getInternaute(Internaute internaute){
-        return getIdbook().getInternauteId();
-    }
-    public void setInternaute(Internaute internaute){
-        getIdbook().setInternauteId(internaute);
-    }
+//    @Transient
+//    public Article getArticle(Article article){
+//        return getIdbook().getArticleID();
+//    }
+//
+//    public void setArticle(Article article){
+//        getIdbook().setArticleID(article);
+//    }
+//    @Transient
+//    public Internaute getInternaute(Internaute internaute){
+//        return getIdbook().getInternauteId();
+//    }
+//    public void setInternaute(Internaute internaute){
+//        getIdbook().setInternauteId(internaute);
+//    }
 
 //
 //    public Set<Article> getArticles() {

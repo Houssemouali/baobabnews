@@ -9,12 +9,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-
-@Table(name="user")
-@Inheritance(strategy=InheritanceType.JOINED)
-@MappedSuperclass
-@IdClass(User.class)
-public abstract class User implements Serializable {
+@Entity
+@Table(name="users")
+//@IdClass(User.class)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name= "USER_TYPE")
+public abstract class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long IdUser;
@@ -38,12 +38,12 @@ public abstract class User implements Serializable {
     private String password;
 
 
-    public User(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
+    public Users(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
-    public User(){
+    public Users(){
 
     }
 

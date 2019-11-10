@@ -6,32 +6,32 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
-//@Embeddable
+@Embeddable
 public class ArticleBookedID implements Serializable {
     @Column(name="ArticleID")
-    private Article articleID;
+    private Long articleID;
 
-    @Column(name = "internaute_id")
-    private Internaute internauteId;
+    @Column(name = "InternauteId")
+    private Long internauteId;
 
     @ManyToOne
-    public Article getArticleID() {
+    public Long getArticleID() {
         return articleID;
     }
 
-    public void setArticleID(Article articleID) {
+    public void setArticleID(Long articleID) {
         this.articleID = articleID;
     }
     @ManyToOne
-    public Internaute getInternauteId() {
+    public Long getInternauteId() {
         return internauteId;
     }
 
-    public void setInternauteId(Internaute internauteId) {
+    public void setInternauteId(Long internauteId) {
         this.internauteId = internauteId;
     }
 
-    public ArticleBookedID(Article articleID, Internaute internauteId) {
+    public ArticleBookedID(Long articleID, Long internauteId) {
         this.articleID = articleID;
         this.internauteId = internauteId;
     }

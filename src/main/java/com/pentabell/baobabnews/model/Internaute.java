@@ -16,9 +16,9 @@ import java.util.Set;
 @Entity
 @Table(name = "internaute")
 @NaturalIdCache
-public class Internaute extends User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Internaute extends Users {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Internaute_ID", unique = true, nullable = false)
     private int id;
 
@@ -46,10 +46,10 @@ public class Internaute extends User implements Serializable {
     //@JsonIgnore
     /*internaute reference to article bookmarks*/
     //@JsonIgnoreProperties("internautes")
-//    @OneToMany(mappedBy = "internautePK",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private Set<BookedArticle> bookmarks = new HashSet<>();
+    @OneToMany(mappedBy = "internautes",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
+    private Set<BookedArticle> articles = new HashSet<>();
 
 
     //Categorie Reference
