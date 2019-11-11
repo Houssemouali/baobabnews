@@ -12,11 +12,11 @@ import java.io.Serializable;
 @Entity
 @Table(name="users")
 //@IdClass(User.class)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name= "USER_TYPE")
 public abstract class Users implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long IdUser;
 
 

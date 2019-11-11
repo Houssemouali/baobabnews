@@ -26,13 +26,13 @@ public class Category {
 
 
     /*user's fav categorie refernce*/
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "categories")
-//    private Set<Internaute> internautes = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "categories")
+    private Set<Internaute> internautes = new HashSet<>();
 
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,

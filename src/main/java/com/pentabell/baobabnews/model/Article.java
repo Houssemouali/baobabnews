@@ -77,6 +77,10 @@ public class Article implements Serializable {
            orphanRemoval = true, cascade=CascadeType.PERSIST)
    public Set<BookedArticle> internautes  = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn (name="journalist_Id",nullable=false)
+    private Journaliste author;
+
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
         this.titre = titre;

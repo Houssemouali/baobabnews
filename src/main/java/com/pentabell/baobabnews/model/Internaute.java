@@ -53,15 +53,42 @@ public class Internaute extends Users {
 
 
     //Categorie Reference
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            })
-//    @JoinTable(name = "internaute_FavCategories",
-//            joinColumns = { @JoinColumn(name = "Internaute_ID") },
-//            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-//    private Set<Category> categories = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "User_FavCategories",
+            joinColumns = { @JoinColumn(name = "Internaute_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private Set<Category> categories = new HashSet<>();
+
+    //sign a problem
+    @OneToMany(mappedBy ="internautes" )
+    private Set<Problem>problems;
+
+    //Suivre pays
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "User_FavCountries",
+            joinColumns = { @JoinColumn(name = "Internaute_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "country_id") })
+    private Set<Country> countries = new HashSet<>();
+
+
+    //follow journalist
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "Followed_Journalist",
+            joinColumns = { @JoinColumn(name = "Internaute_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "journalist_id") })
+    private Set<Journaliste> journalists = new HashSet<>();
 
 
     public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel, @NotNull @NotEmpty String langue, @NotNull @NotEmpty String pays_suivi, @NotNull @NotEmpty String nationality) {

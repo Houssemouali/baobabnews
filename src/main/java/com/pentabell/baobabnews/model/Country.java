@@ -34,6 +34,15 @@ public class Country {
             mappedBy = "countries")
     private Set<Category> categories = new HashSet<>();
 
+    //internaute followed countries
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "countries")
+    private Set<Internaute> internautes = new HashSet<>();
+
     public int getId() {
         return id;
     }
