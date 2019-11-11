@@ -1,10 +1,9 @@
 package com.pentabell.baobabnews.Repositories;
 
-import com.pentabell.baobabnews.model.Users;
-import com.pentabell.baobabnews.model.Users;
+import com.pentabell.baobabnews.model.Problem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users,Long> {
+public interface ProblemRepository extends JpaRepository<Problem,Long> {
 }
