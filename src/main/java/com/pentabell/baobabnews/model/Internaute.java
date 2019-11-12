@@ -7,6 +7,8 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.HashSet;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Entity
 @Table(name="BookedArticle")
 public class BookedArticle{
@@ -27,14 +26,14 @@ public class BookedArticle{
 
 
     @ManyToOne(fetch = FetchType.LAZY,
-           targetEntity=Internaute.class,
+            targetEntity=Internaute.class,
             cascade = CascadeType.PERSIST)
-            @MapsId("internauteID")
+    @MapsId("internauteID")
 //    @JoinColumn(name = "id", insertable = false, updatable = false)
 //   @MapsId("InternauteID")
     Set<Internaute> internautes;
 
-//test lenovo
+    //test lenovo
     @Column(name="ArticleDateSaved")
     @CreationTimestamp
     private LocalDateTime saved_date;

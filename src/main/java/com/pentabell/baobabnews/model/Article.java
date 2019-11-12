@@ -73,6 +73,7 @@ public class Article implements Serializable {
 
     /*internaute reference to article bookmarks*/
 
+
    @OneToMany(mappedBy = "articles",
            orphanRemoval = true, cascade=CascadeType.PERSIST)
    public Set<BookedArticle> internautes  = new HashSet<>();
@@ -80,6 +81,7 @@ public class Article implements Serializable {
     @ManyToOne
     @JoinColumn (name="journalist_Id",nullable=false)
     private Journaliste author;
+
 
 
     public Article(@NotNull String titre, @NotNull String content, Date date) {
