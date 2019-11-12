@@ -45,7 +45,6 @@ public class Internaute extends Users {
 
     //@JsonIgnore
     /*internaute reference to article bookmarks*/
-    //@JsonIgnoreProperties("internautes")
     @OneToMany(mappedBy = "internautes",
             cascade = CascadeType.PERSIST,
             orphanRemoval = true)
