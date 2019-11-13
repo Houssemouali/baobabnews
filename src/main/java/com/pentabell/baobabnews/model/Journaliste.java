@@ -17,7 +17,7 @@ import java.util.Set;
 public class Journaliste extends Users {
 
     @Column(name="Journalist_Id",unique = true, nullable = false)
-    private int id;
+    private Long id;
 
     @NotNull
     @NotEmpty
@@ -78,11 +78,11 @@ public class Journaliste extends Users {
             mappedBy = "journalists")
     private Set<Internaute> internautes = new HashSet<>();
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

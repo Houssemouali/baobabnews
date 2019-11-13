@@ -10,7 +10,7 @@ public class Language {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     @Column(name = "languageN")
@@ -19,17 +19,17 @@ public class Language {
     @OneToMany(mappedBy="LanguageArticle")
     private Set<Article>articles;
 
-    public Language(int id, @NotNull String languageName, Set<Article> articles) {
+    public Language(Long id, @NotNull String languageName, Set<Article> articles) {
         this.id = id;
         LanguageName = languageName;
         this.articles = articles;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

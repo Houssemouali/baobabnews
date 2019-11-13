@@ -8,7 +8,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,7 +17,7 @@ import java.io.Serializable;
 //@IdClass(User.class)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name= "USER_TYPE")
-public abstract class Users implements Serializable {
+public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long IdUser;
@@ -39,12 +40,23 @@ public abstract class Users implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
 
     public Users(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
+
+    public Users(@NotBlank @Size(min = 3, max = 50) String username) {
+        this.username = username;
+    }
+
     public Users(){
 
     }
@@ -81,6 +93,14 @@ public abstract class Users implements Serializable {
         this.password = password;
     }
 
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
     @Override
     public String toString() {
         return "User{" +
