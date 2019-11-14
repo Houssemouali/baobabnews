@@ -1,11 +1,16 @@
 package com.pentabell.baobabnews.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.NaturalIdCache;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
 @Table(name="language")
+@NaturalIdCache
 public class Language {
 
     @Id
@@ -25,7 +30,7 @@ public class Language {
         this.articles = articles;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

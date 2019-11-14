@@ -1,6 +1,7 @@
 package com.pentabell.baobabnews.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -17,26 +18,27 @@ import java.util.Set;
 //@IdClass(User.class)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name= "USER_TYPE")
+@JsonIgnoreProperties
 public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long IdUser;
 
 
-    @NotBlank
+    //@NotBlank
     @Size(max = 50)
     @Email
     @Column(name = "email")
     private String email;
 
-    @NotBlank
+    //@NotBlank
     @Size(min=3, max = 50)
     @Column(name = "username")
     private String username;
 
     @JsonIgnore
-    @NotBlank
-    @Size(min=6, max = 100)
+    //@NotBlank
+    @Size(min=6, max = 20)
     @Column(name = "password")
     private String password;
 

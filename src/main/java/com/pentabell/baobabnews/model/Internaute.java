@@ -1,5 +1,6 @@
 package com.pentabell.baobabnews.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -18,30 +19,35 @@ import java.util.Set;
 @Entity
 @Table(name = "internaute")
 @NaturalIdCache
+@JsonIgnoreProperties
+//@JsonFormat(shape= JsonFormat.Shape.ARRAY)
+
 public class Internaute extends Users {
 //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Internaute_ID", unique = true, nullable = false)
     private int id;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "(^$|[0-9]{10})")
+    //@NotNull
+    //@NotEmpty(message = "Please enter number")
+    //@Pattern(regexp = "(^$|[0-9]{10})")
     @Column(name = "numtel")
     private long numtel;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
+    //@NotEmpty(message = "Please enter language")    //@NotBlank
     @Column(name = "langue")
     private String langue;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotBlank
+    //@NotEmpty
     @Column(name = "pays_suivi")
     private String pays_suivi;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty(message = "Please enter nationality")    //@NotBlank
     @Column(name = "nationality")
     private String nationality;
 
@@ -91,14 +97,23 @@ public class Internaute extends Users {
             inverseJoinColumns = { @JoinColumn(name = "journalist_id") })
     private Set<Journaliste> journalists = new HashSet<>();
 
+    public Internaute(String email, String username, String password,long numtel, String langue, String pays_suivi, String nationality) {
 
-    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel, @NotNull @NotEmpty String langue, @NotNull @NotEmpty String pays_suivi, @NotNull @NotEmpty String nationality) {
-        super(email, username, password);
         this.numtel = numtel;
         this.langue = langue;
         this.pays_suivi = pays_suivi;
         this.nationality = nationality;
     }
+
+
+
+//    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel, @NotNull @NotEmpty String langue, @NotNull @NotEmpty String pays_suivi, @NotNull @NotEmpty String nationality) {
+//        super(email, username, password);
+//        this.numtel = numtel;
+//        this.langue = langue;
+//        this.pays_suivi = pays_suivi;
+//        this.nationality = nationality;
+//    }
 
     public Internaute() {
     }
