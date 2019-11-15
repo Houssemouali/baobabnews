@@ -23,10 +23,12 @@ import java.util.Set;
 //@JsonFormat(shape= JsonFormat.Shape.ARRAY)
 
 public class Internaute extends Users {
-//    @Id
+    //@Id
+    Users us=new Users();
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     @Column(name = "Internaute_ID", unique = true, nullable = false)
-    private int id;
+    private long id;
 
     //@NotNull
     //@NotEmpty(message = "Please enter number")
@@ -97,8 +99,9 @@ public class Internaute extends Users {
             inverseJoinColumns = { @JoinColumn(name = "journalist_id") })
     private Set<Journaliste> journalists = new HashSet<>();
 
-    public Internaute(String email, String username, String password,long numtel, String langue, String pays_suivi, String nationality) {
 
+    public Internaute(String email, String username, String password,long numtel, String langue, String pays_suivi, String nationality) {
+        //super(email,username,password);
         this.numtel = numtel;
         this.langue = langue;
         this.pays_suivi = pays_suivi;
@@ -118,12 +121,44 @@ public class Internaute extends Users {
     public Internaute() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getNumtel() {
+        return numtel;
+    }
+
+    public void setNumtel(long numtel) {
+        this.numtel = numtel;
+    }
+
+    public String getLangue() {
+        return langue;
+    }
+
+    public void setLangue(String langue) {
+        this.langue = langue;
+    }
+
+    public String getPays_suivi() {
+        return pays_suivi;
+    }
+
+    public void setPays_suivi(String pays_suivi) {
+        this.pays_suivi = pays_suivi;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     @Override

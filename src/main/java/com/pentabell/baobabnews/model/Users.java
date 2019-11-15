@@ -22,6 +22,8 @@ import java.util.Set;
 public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+//    ,generator="myseq"
+//    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     private long IdUser;
 
 
@@ -36,9 +38,9 @@ public class Users implements Serializable {
     @Column(name = "username")
     private String username;
 
-    @JsonIgnore
+    //@JsonIgnore
     //@NotBlank
-    @Size(min=6, max = 20)
+    @Size(min=6, max = 20,message="password must be between 6 and 20 character long")
     @Column(name = "password")
     private String password;
 

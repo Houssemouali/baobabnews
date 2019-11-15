@@ -50,8 +50,8 @@ public class Article implements Serializable {
 
     /*Article language*/
     @ManyToOne
-    @JoinColumn(name="language_id",nullable=false)
-    @JsonProperty("language_id")
+    @JoinColumn(name="language_id")
+    @JsonIgnore
     private Language LanguageArticle;
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,
@@ -87,13 +87,13 @@ public class Article implements Serializable {
     @JsonProperty("journalist_id")
     private Journaliste author;
 
-    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
-        this.titre = titre;
-        this.content = content;
-        this.date = date;
-        this.LanguageArticle = languageArticle;
-        this.author = author;
-    }
+//    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
+//        this.titre = titre;
+//        this.content = content;
+//        this.date = date;
+//        this.LanguageArticle = languageArticle;
+//        this.author = author;
+//    }
 
     public Article() {
     }
@@ -136,19 +136,19 @@ public class Article implements Serializable {
         this.date = date;
     }
 
-    public Language getLanguageArticle() {
-        return LanguageArticle;
-    }
-
-    public void setLanguageArticle(Language languageArticle) {
-        LanguageArticle = languageArticle;
-    }
-
-    public Journaliste getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Journaliste author) {
-        this.author = author;
-    }
+//    public Language getLanguageArticle() {
+//        return LanguageArticle;
+//    }
+//
+//    public void setLanguageArticle(Language languageArticle) {
+//        LanguageArticle = languageArticle;
+//    }
+//
+//    public Journaliste getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(Journaliste author) {
+//        this.author = author;
+//    }
 }

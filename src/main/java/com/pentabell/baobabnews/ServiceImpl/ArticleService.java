@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public abstract class ArticleService implements ArticleRepository {
-    @Qualifier("articleRepository")
-    @Autowired
+//    @Qualifier("articleRepository")
+//    @Autowired
     private ArticleRepository articlerepo;
 
     public void addArticle(Article ar){

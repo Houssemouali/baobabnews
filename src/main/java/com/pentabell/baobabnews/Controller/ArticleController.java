@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/article")
 public class ArticleController {
-   @Qualifier("articleRepository")
     @Autowired
     ArticleRepository arepo;
 
