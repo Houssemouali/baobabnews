@@ -19,12 +19,12 @@ import java.util.Set;
 @Entity
 @Table(name = "internaute")
 @NaturalIdCache
-@JsonIgnoreProperties
+//@JsonIgnoreProperties
 //@JsonFormat(shape= JsonFormat.Shape.ARRAY)
 
 public class Internaute extends Users {
     //@Id
-    Users us=new Users();
+    //Users us=new Users();
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     @Column(name = "Internaute_ID", unique = true, nullable = false)

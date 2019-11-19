@@ -24,6 +24,9 @@ public class Language {
     @OneToMany(mappedBy="LanguageArticle")
     private Set<Article>articles;
 
+    public Language() {
+    }
+
     public Language(Long id, @NotNull String languageName, Set<Article> articles) {
         this.id = id;
         LanguageName = languageName;

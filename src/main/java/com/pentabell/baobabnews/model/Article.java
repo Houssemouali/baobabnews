@@ -51,7 +51,8 @@ public class Article implements Serializable {
     /*Article language*/
     @ManyToOne
     @JoinColumn(name="language_id")
-    @JsonIgnore
+    @JsonProperty
+    //@JsonIgnore
     private Language LanguageArticle;
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,
@@ -83,7 +84,7 @@ public class Article implements Serializable {
    public Set<BookedArticle> internautes  = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn (name="journalist_Id",nullable=false)
+    @JoinColumn (name="journalist_Id")
     @JsonProperty("journalist_id")
     private Journaliste author;
 
@@ -98,11 +99,26 @@ public class Article implements Serializable {
     public Article() {
     }
 
-    public Article(@NotNull String titre, @NotNull String content, Date date) {
+//    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle) {
+//        this.titre = titre;
+//        this.content = content;
+//        this.date = date;
+//        LanguageArticle = languageArticle;
+//    }
+
+    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
         this.titre = titre;
         this.content = content;
         this.date = date;
+        LanguageArticle = languageArticle;
+        this.author = author;
     }
+    //
+//    public Article(@NotNull String titre, @NotNull String content, Date date) {
+//        this.titre = titre;
+//        this.content = content;
+//        this.date = date;
+//    }
 
     public long getIdArticle() {
         return IdArticle;
@@ -136,19 +152,19 @@ public class Article implements Serializable {
         this.date = date;
     }
 
-//    public Language getLanguageArticle() {
-//        return LanguageArticle;
-//    }
+    public Language getLanguageArticle() {
+        return LanguageArticle;
+    }
+
+    public void setLanguageArticle(Language languageArticle) {
+        LanguageArticle = languageArticle;
+    }
 //
-//    public void setLanguageArticle(Language languageArticle) {
-//        LanguageArticle = languageArticle;
-//    }
-//
-//    public Journaliste getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(Journaliste author) {
-//        this.author = author;
-//    }
+    public Journaliste getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Journaliste author) {
+        this.author = author;
+    }
 }

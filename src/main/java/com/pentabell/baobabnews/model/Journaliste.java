@@ -1,12 +1,11 @@
 package com.pentabell.baobabnews.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,34 +13,35 @@ import java.util.Set;
 @Entity
 @Table(name="journaliste")
 @NaturalIdCache
-public class Journaliste extends Users {
-
+public class Journaliste  {
+    @Id
     @Column(name="Journalist_Id",unique = true, nullable = false)
     private Long id;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "(^$|[0-9]{10})")
+    //@NotNull
+    //@NotEmpty
+    //@Pattern(regexp = "(^$|[0-9]{10})")
     @Column(name = "numtel")
     private long numtel;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
     @Column(name = "nom")
     @Size(max = 40)
     private String nom;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
     @Size(max = 40)
     @Column(name = "prenom")
     private String prenom;
 
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    //@Temporal(TemporalType.DATE)
     private Date dateNaissance;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
     @Column(name = "nationality")
     private String Nationality;
 
@@ -54,12 +54,14 @@ public class Journaliste extends Users {
     @Column(name = "cv", columnDefinition="BLOB")
     private byte[] cv;
 
-    @NotNull
-    @NotEmpty
+    //@NotNull
+    //@NotEmpty
     @Column(name="yearsofExperience")
     private int Experience;
-    @NotNull
-    @NotEmpty
+
+    //@NotNull
+    //@NotEmpty
+    @JsonIgnore
     @Column(name="ActualEntreprise")
     private String EntrepriseActuelle;
 
@@ -67,6 +69,7 @@ public class Journaliste extends Users {
     private String motivationtext;
 
     //articles relation
+    //,cascade = CascadeType.PERSIST
     @OneToMany(mappedBy = "author")
     private Set<Article> articles ;
     //user favourite journalist
@@ -166,5 +169,28 @@ public class Journaliste extends Users {
         this.motivationtext = motivationtext;
     }
 
+//    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, Long id, Set<Article> articles) {
+//        super(email, username, password);
+//        this.id = id;
+//        this.articles = articles;
+//    }
 
+    public Journaliste(Long id, long numtel, @Size(max = 40) String nom, @Size(max = 40) String prenom, Date dateNaissance, String nationality, byte[] portefolio, byte[] cv, int experience, String entrepriseActuelle, String motivationtext, Set<Article> articles, Set<Internaute> internautes) {
+        this.id = id;
+        this.numtel = numtel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+        Nationality = nationality;
+        this.portefolio = portefolio;
+        this.cv = cv;
+        Experience = experience;
+        EntrepriseActuelle = entrepriseActuelle;
+        this.motivationtext = motivationtext;
+        this.articles = articles;
+        this.internautes = internautes;
+    }
+
+    public Journaliste() {
+    }
 }
