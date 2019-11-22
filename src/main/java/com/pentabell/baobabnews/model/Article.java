@@ -66,7 +66,7 @@ public class Article implements Serializable {
     private Set<Country>countries  = new HashSet<>();
 
     /*Category reference*/
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -81,11 +81,13 @@ public class Article implements Serializable {
 
    @OneToMany(mappedBy = "articles",
            orphanRemoval = true, cascade=CascadeType.PERSIST)
+   @JsonIgnore
    public Set<BookedArticle> internautes  = new HashSet<>();
 
     @ManyToOne
     @JoinColumn (name="journalist_Id")
     @JsonProperty("journalist_id")
+    //@JsonIgnore
     private Journaliste author;
 
 //    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
@@ -106,6 +108,14 @@ public class Article implements Serializable {
 //        LanguageArticle = languageArticle;
 //    }
 
+    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Tag tags, Language languageArticle, Country countries, Category categories, Journaliste author) {
+        this.titre = titre;
+        this.content = content;
+        this.date = date;
+        LanguageArticle = languageArticle;
+        this.author = author;
+    }
+
     public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
         this.titre = titre;
         this.content = content;
@@ -113,11 +123,18 @@ public class Article implements Serializable {
         LanguageArticle = languageArticle;
         this.author = author;
     }
+
     //
 //    public Article(@NotNull String titre, @NotNull String content, Date date) {
 //        this.titre = titre;
 //        this.content = content;
 //        this.date = date;
+//    }
+
+//    public void addCategory(Category c){
+//        this.getCategories().add(c);
+//        //categories.add(c);
+//        c.getArticles().add(this);
 //    }
 
     public long getIdArticle() {
@@ -167,4 +184,12 @@ public class Article implements Serializable {
     public void setAuthor(Journaliste author) {
         this.author = author;
     }
+//
+//    public Set<Category> getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(Set<Category> categories) {
+//        this.categories = categories;
+//    }
 }

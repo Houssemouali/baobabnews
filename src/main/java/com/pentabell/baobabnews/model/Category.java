@@ -16,7 +16,7 @@ public class Category {
     @Column(name = "CategoryName")
     private String CategoryName;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -66,6 +66,17 @@ public class Category {
         CategoryName = categoryName;
     }
 
+    public Category() {
+    }
+
+    public Set<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
@@ -73,4 +84,5 @@ public class Category {
                 ", CategoryName='" + CategoryName + '\'' +
                 '}';
     }
+
 }

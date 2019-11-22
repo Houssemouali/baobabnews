@@ -32,6 +32,5 @@ public class InternauteController {
     @CrossOrigin("*")
     public Iterable<Internaute> getAllData() {
         return ir.findAll();
-
     }
 }

@@ -58,4 +58,12 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Country(@NotNull @Size(max = 100) String name, Set<Article> articles) {
+        this.name = name;
+        this.articles = articles;
+    }
+
+    public Country() {
+    }
 }

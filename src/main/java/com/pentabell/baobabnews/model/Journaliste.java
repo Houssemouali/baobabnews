@@ -15,8 +15,26 @@ import java.util.Set;
 @NaturalIdCache
 public class Journaliste  {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Journalist_Id",unique = true, nullable = false)
     private Long id;
+
+//    //@NotBlank
+//    @Size(max = 50)
+//    @Email
+//    @Column(name = "email")
+//    private String email;
+//
+//    //@NotBlank
+//    @Size(min=3, max = 50)
+//    @Column(name = "username")
+//    private String username;
+//
+//    //@JsonIgnore
+//    //@NotBlank
+//    @Size(min=6, max = 20,message="password must be between 6 and 20 character long")
+//    @Column(name = "password")
+//    private String password;
 
     //@NotNull
     //@NotEmpty
@@ -168,8 +186,32 @@ public class Journaliste  {
     public void setMotivationtext(String motivationtext) {
         this.motivationtext = motivationtext;
     }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
-//    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, Long id, Set<Article> articles) {
+    //    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, Long id, Set<Article> articles) {
 //        super(email, username, password);
 //        this.id = id;
 //        this.articles = articles;
