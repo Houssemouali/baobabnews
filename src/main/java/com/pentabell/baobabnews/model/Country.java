@@ -17,22 +17,22 @@ public class Country {
     @Column(name="label")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
 
-                    CascadeType.ALL
+                    CascadeType.MERGE
             },
             mappedBy = "countries")
     private Set<Article> articles = new HashSet<>();
 
     //category reference
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "countries")
-    private Set<Category> categories = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            },
+//            mappedBy = "countries")
+//    private Set<Category> categories = new HashSet<>();
 
     //internaute followed countries
     @ManyToMany(fetch = FetchType.LAZY,

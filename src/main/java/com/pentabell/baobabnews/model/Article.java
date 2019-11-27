@@ -34,58 +34,58 @@ public class Article implements Serializable {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @Column(name="dateCreated")
-    private Date date=new Date();
+    @Column(name = "dateCreated")
+    private Date date = new Date();
 
     /*Tag reference*/
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade =
                     CascadeType.MERGE
-            })
+    )
     @JoinTable(name = "article_tags",
-            joinColumns = { @JoinColumn(name = "article_id") },
-            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
     /*Article language*/
     @ManyToOne
-    @JoinColumn(name="language_id")
+    @JoinColumn(name = "language_id")
     @JsonProperty
     //@JsonIgnore
     private Language LanguageArticle;
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                    CascadeType.PERSIST,
                     CascadeType.MERGE
             })
     @JoinTable(name = "article_countries",
-            joinColumns = { @JoinColumn(name = "article_id") },
-            inverseJoinColumns = { @JoinColumn(name = "country_id") })
-    private Set<Country>countries  = new HashSet<>();
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "country_id")})
+    private Set<Country> countries = new HashSet<>();
 
     /*Category reference*/
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @ManyToMany(fetch = FetchType.LAZY
+//            ,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            }
+    )
     @JoinTable(name = "article_categories",
-            joinColumns = { @JoinColumn(name = "article_id") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private Set<Category>categories  = new HashSet<>();
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private Set<Category> categories = new HashSet<>();
 
     /*internaute reference to article bookmarks*/
 
 
-   @OneToMany(mappedBy = "articles",
-           orphanRemoval = true, cascade=CascadeType.PERSIST)
-   @JsonIgnore
-   public Set<BookedArticle> internautes  = new HashSet<>();
+    @OneToMany(mappedBy = "articles",
+            orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    public Set<BookedArticle> internautes = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn (name="journalist_Id")
+    @JoinColumn(name = "journalist_Id")
     @JsonProperty("journalist_id")
     //@JsonIgnore
     private Journaliste author;
@@ -124,12 +124,21 @@ public class Article implements Serializable {
         this.author = author;
     }
 
+    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Set<Category> categories, Journaliste author) {
+        this.titre = titre;
+        this.content = content;
+        this.date = date;
+        LanguageArticle = languageArticle;
+        this.categories = categories;
+        this.author = author;
+    }
+
     //
-//    public Article(@NotNull String titre, @NotNull String content, Date date) {
-//        this.titre = titre;
-//        this.content = content;
-//        this.date = date;
-//    }
+    public Article(@NotNull String titre, @NotNull String content, Date date) {
+        this.titre = titre;
+        this.content = content;
+        this.date = date;
+    }
 
 //    public void addCategory(Category c){
 //        this.getCategories().add(c);
@@ -176,7 +185,8 @@ public class Article implements Serializable {
     public void setLanguageArticle(Language languageArticle) {
         LanguageArticle = languageArticle;
     }
-//
+
+    //
     public Journaliste getAuthor() {
         return author;
     }
@@ -184,12 +194,29 @@ public class Article implements Serializable {
     public void setAuthor(Journaliste author) {
         this.author = author;
     }
-//
-//    public Set<Category> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(Set<Category> categories) {
-//        this.categories = categories;
-//    }
+
+    //
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Set<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(Set<Country> countries) {
+        this.countries = countries;
+    }
 }

@@ -62,15 +62,15 @@ public class Internaute extends Users {
 
 
     //Categorie Reference
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "User_FavCategories",
-            joinColumns = { @JoinColumn(name = "Internaute_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private Set<Category> categories = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            })
+//    @JoinTable(name = "User_FavCategories",
+//            joinColumns = { @JoinColumn(name = "Internaute_ID") },
+//            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+//    private Set<Category> categories = new HashSet<>();
 
     //sign a problem
     @OneToMany(mappedBy ="internautes" )

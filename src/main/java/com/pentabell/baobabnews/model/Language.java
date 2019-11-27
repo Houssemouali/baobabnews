@@ -2,6 +2,7 @@ package com.pentabell.baobabnews.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Language {
     @Column(name = "languageN")
     private String LanguageName;
 
-    @OneToMany(mappedBy="LanguageArticle")
+    @OneToMany(mappedBy = "LanguageArticle", cascade = {CascadeType.PERSIST})
     private Set<Article>articles;
 
     public Language() {

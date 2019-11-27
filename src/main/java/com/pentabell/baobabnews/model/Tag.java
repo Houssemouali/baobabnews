@@ -18,11 +18,10 @@ public class Tag {
     @Column(name="label")
     private String libelle;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade =
+                    CascadeType.MERGE,
+
             mappedBy = "tags")
     private Set<Article> posts = new HashSet<>();
 
