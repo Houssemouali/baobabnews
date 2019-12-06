@@ -50,7 +50,7 @@ public class Article implements Serializable {
     /*Article language*/
     @ManyToOne
     @JoinColumn(name = "language_id")
-    @JsonProperty
+    //@JsonProperty("language")
     //@JsonIgnore
     private Language LanguageArticle;
     /*country reference*/
@@ -61,9 +61,11 @@ public class Article implements Serializable {
     @JoinTable(name = "article_countries",
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "country_id")})
+    //@JsonProperty("country")
     private Set<Country> countries = new HashSet<>();
 
     /*Category reference*/
+    //@JsonProperty("category")
     @ManyToMany(fetch = FetchType.LAZY
 //            ,
 //            cascade = {
@@ -83,11 +85,11 @@ public class Article implements Serializable {
             orphanRemoval = true, cascade = CascadeType.PERSIST)
     @JsonIgnore
     public Set<BookedArticle> internautes = new HashSet<>();
-
-    @ManyToOne
+//(cascade = {CascadeType.ALL})( optional = true,cascade ={CascadeType.ALL})
+//@JsonProperty("author")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "journalist_Id")
-    @JsonProperty("journalist_id")
-    //@JsonIgnore
+    @JsonIgnore
     private Journaliste author;
 
 //    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
@@ -140,7 +142,20 @@ public class Article implements Serializable {
         this.date = date;
     }
 
-//    public void addCategory(Category c){
+    public Article(@NotNull String titre, String content,  Language languageArticle, Journaliste author, Set<Tag> tags,  Set<Country> countries) {
+        this.titre = titre;
+        this.content = content;
+        //this.date = date;
+        LanguageArticle = languageArticle;
+        this.author = author;
+        this.tags = tags;
+        //this.categories = categories;
+        this.countries = countries;
+    }
+
+//    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {
+//    }
+    //    public void addCategory(Category c){
 //        this.getCategories().add(c);
 //        //categories.add(c);
 //        c.getArticles().add(this);

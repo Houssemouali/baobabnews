@@ -1,13 +1,11 @@
 package com.pentabell.baobabnews.model.Requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pentabell.baobabnews.model.Country;
-import com.pentabell.baobabnews.model.Journaliste;
-import com.pentabell.baobabnews.model.Language;
-import com.pentabell.baobabnews.model.Tag;
+import com.pentabell.baobabnews.model.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
+import javax.persistence.Basic;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;

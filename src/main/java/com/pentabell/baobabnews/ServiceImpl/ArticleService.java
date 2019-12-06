@@ -4,6 +4,7 @@ import com.pentabell.baobabnews.Repositories.ArticleRepository;
 import com.pentabell.baobabnews.Repositories.CategoryRepository;
 import com.pentabell.baobabnews.model.Article;
 import com.pentabell.baobabnews.model.Category;
+import com.pentabell.baobabnews.model.Requests.ArticleForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -54,10 +55,10 @@ public  class ArticleService  {
 //        return checkIfIdIsPresentandReturnAuthor( id ).getBookList();
 //    }
 
-    private Article checkIfIdIsPresentandReturnAuthor( Long id )
+    public Article checkIfIdIsPresentandReturnAuthor( Long id )
     {
         if ( !articlerepo.findById( id ).isPresent() )
-            throw new ResourceNotFoundException( " Author id = " + id + " not found" );
+            throw new ResourceNotFoundException( " Article id = " + id + " not found" );
         else
             return articlerepo.findById( id ).get();
     }
@@ -74,14 +75,17 @@ public  class ArticleService  {
             existingArticle.setLanguageArticle(articleDTO.getLanguageArticle());
             existingArticle.setAuthor(articleDTO.getAuthor());
             existingArticle.setDate(articleDTO.getDate());
+            existingArticle.setTags(articleDTO.getTags());
 
             Article updatedArticle = articlerepo.save(existingArticle);
 
             return new Article(updatedArticle.getTitre(),
                     updatedArticle.getContent(),
-                    updatedArticle.getDate(),
                     updatedArticle.getLanguageArticle(),
-            updatedArticle.getAuthor());
+            updatedArticle.getAuthor(),
+            updatedArticle.getTags(),
+                    updatedArticle.getCountries()
+            );
         }else{
             return null;
         }

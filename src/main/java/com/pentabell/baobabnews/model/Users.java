@@ -2,6 +2,8 @@ package com.pentabell.baobabnews.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -21,7 +23,10 @@ import java.util.Set;
 @JsonIgnoreProperties
 public class Users implements Serializable {
     @Id
+    //@GeneratedValue(strategy = GenerationType.TABLE)
     @GeneratedValue(strategy = GenerationType.TABLE)
+    @Cascade(CascadeType.ALL)
+
 //    ,generator="myseq"
 //    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     private long IdUser;
@@ -31,17 +36,20 @@ public class Users implements Serializable {
     @Size(max = 50)
     @Email
     @Column(name = "email")
+    @JsonIgnore
     private String email;
 
-    //@NotBlank
+    @NotBlank
     @Size(min=3, max = 50)
     @Column(name = "username")
+    @JsonIgnore
     private String username;
 
     //@JsonIgnore
     //@NotBlank
-    @Size(min=6, max = 20,message="password must be between 6 and 20 character long")
+    @Size(min=6, max = 100,message="password must be between 6 and 20 character long")
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)

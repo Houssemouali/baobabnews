@@ -26,7 +26,7 @@ public class Internaute extends Users {
     //@Id
     //Users us=new Users();
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
+    //@SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     @Column(name = "Internaute_ID", unique = true, nullable = false)
     private long id;
 
@@ -108,9 +108,12 @@ public class Internaute extends Users {
         this.nationality = nationality;
     }
 
+    public Internaute(String email,String username, String password) {
+        super(email, username, password);
+    }
 
 
-//    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel, @NotNull @NotEmpty String langue, @NotNull @NotEmpty String pays_suivi, @NotNull @NotEmpty String nationality) {
+    //    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel, @NotNull @NotEmpty String langue, @NotNull @NotEmpty String pays_suivi, @NotNull @NotEmpty String nationality) {
 //        super(email, username, password);
 //        this.numtel = numtel;
 //        this.langue = langue;

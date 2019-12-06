@@ -20,7 +20,6 @@ import javax.transaction.Transaction;
 import javax.validation.Valid;
 import javax.websocket.Session;
 import java.util.*;
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/article")
@@ -136,5 +135,9 @@ public class ArticleController {
         return response;
     }
 
+    @RequestMapping(value="/{id}")
+    public Article getArticle(@PathVariable Long id ){
+        return articleService.checkIfIdIsPresentandReturnAuthor(id);
+    }
 
 }

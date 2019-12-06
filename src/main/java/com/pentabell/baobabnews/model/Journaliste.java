@@ -13,11 +13,11 @@ import java.util.Set;
 @Entity
 @Table(name="journaliste")
 @NaturalIdCache
-public class Journaliste  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="Journalist_Id",unique = true, nullable = false)
-    private Long id;
+public class Journaliste extends Users  {
+    //@Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="Journalist_Id",unique = true, nullable = false)
+//    private long id;
 
 //    //@NotBlank
 //    @Size(max = 50)
@@ -79,7 +79,7 @@ public class Journaliste  {
 
     //@NotNull
     //@NotEmpty
-    @JsonIgnore
+    //@JsonIgnore
     @Column(name="ActualEntreprise")
     private String EntrepriseActuelle;
 
@@ -88,7 +88,7 @@ public class Journaliste  {
 
     //articles relation
     //,cascade = CascadeType.PERSIST
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
     private Set<Article> articles ;
     //user favourite journalist
     @ManyToMany(fetch = FetchType.LAZY,
@@ -99,13 +99,14 @@ public class Journaliste  {
             mappedBy = "journalists")
     private Set<Internaute> internautes = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public long getNumtel() {
         return numtel;
@@ -217,8 +218,8 @@ public class Journaliste  {
 //        this.articles = articles;
 //    }
 
-    public Journaliste(Long id, long numtel, @Size(max = 40) String nom, @Size(max = 40) String prenom, Date dateNaissance, String nationality, byte[] portefolio, byte[] cv, int experience, String entrepriseActuelle, String motivationtext, Set<Article> articles, Set<Internaute> internautes) {
-        this.id = id;
+    public Journaliste(long numtel, @Size(max = 40) String nom, @Size(max = 40) String prenom, Date dateNaissance, String nationality, byte[] portefolio, byte[] cv, int experience, String entrepriseActuelle, String motivationtext, Set<Article> articles, Set<Internaute> internautes) {
+//        this.id = id;
         this.numtel = numtel;
         this.nom = nom;
         this.prenom = prenom;
@@ -231,6 +232,43 @@ public class Journaliste  {
         this.motivationtext = motivationtext;
         this.articles = articles;
         this.internautes = internautes;
+    }
+
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
+        super(email, username, password);
+    }
+//,int experience
+//    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password,
+//                       String entrepriseActuelle ,String nationality,int experience) {
+//        super(email, username, password);
+//        EntrepriseActuelle = entrepriseActuelle;
+//        Nationality = nationality;
+//        Experience = experience;
+//
+//    }
+//public Journaliste(String email, String username, String encode, String actualEntreprise, String nationality, int experience, String nom, String prenom, int numtel, Date datenaiss, String motivationtext) {
+//}
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password,
+                       String entrepriseActuelle,String nationality, int experience, @Size(max = 40) String nom,
+                       @Size(max = 40) String prenom, long numtel, Date dateNaissance,  String motivationtext, byte[] portefolio, byte[] cv) {
+        super(email, username, password);
+        EntrepriseActuelle = entrepriseActuelle;
+        Nationality = nationality;
+        Experience = experience;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.numtel = numtel;
+        this.dateNaissance = dateNaissance;
+        this.motivationtext = motivationtext;
+        this.portefolio = portefolio;
+        this.cv = cv;
+    }
+
+
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, byte[] portefolio, byte[] cv) {
+        super(email, username, password);
+        this.portefolio = portefolio;
+        this.cv = cv;
     }
 
     public Journaliste() {
