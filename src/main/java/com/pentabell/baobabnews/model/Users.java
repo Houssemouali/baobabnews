@@ -32,7 +32,7 @@ public class Users implements Serializable {
     private long IdUser;
 
 
-    //@NotBlank
+    @NotBlank
     @Size(max = 50)
     @Email
     @Column(name = "email")
@@ -45,11 +45,11 @@ public class Users implements Serializable {
     @JsonIgnore
     private String username;
 
-    //@JsonIgnore
+    @JsonIgnore
     //@NotBlank
     @Size(min=6, max = 100,message="password must be between 6 and 20 character long")
     @Column(name = "password")
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)

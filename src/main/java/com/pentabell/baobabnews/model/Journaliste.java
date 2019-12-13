@@ -2,6 +2,7 @@ package com.pentabell.baobabnews.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
@@ -88,7 +89,9 @@ public class Journaliste extends Users  {
 
     //articles relation
     //,cascade = CascadeType.PERSIST
-    @OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "author",
+            cascade = {CascadeType.MERGE},
+            fetch = FetchType.LAZY)
     private Set<Article> articles ;
     //user favourite journalist
     @ManyToMany(fetch = FetchType.LAZY,
@@ -261,7 +264,7 @@ public class Journaliste extends Users  {
         this.dateNaissance = dateNaissance;
         this.motivationtext = motivationtext;
         this.portefolio = portefolio;
-        this.cv = cv;
+       this.cv = cv;
     }
 
 

@@ -42,7 +42,7 @@ public class ArticleController {
 //        ).findFirst().get();
 //    }
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/AddArticle")
     @ResponseBody
     public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article) {
 //       for(Category c:article.getCategories()){

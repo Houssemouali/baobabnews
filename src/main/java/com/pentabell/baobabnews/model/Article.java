@@ -8,6 +8,7 @@ import org.dom4j.tree.AbstractEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.w3c.dom.Text;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -66,7 +67,7 @@ public class Article implements Serializable {
 
     /*Category reference*/
     //@JsonProperty("category")
-    @ManyToMany(fetch = FetchType.LAZY
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL
 //            ,
 //            cascade = {
 //                    CascadeType.PERSIST,
@@ -86,10 +87,10 @@ public class Article implements Serializable {
     @JsonIgnore
     public Set<BookedArticle> internautes = new HashSet<>();
 //(cascade = {CascadeType.ALL})( optional = true,cascade ={CascadeType.ALL})
-//@JsonProperty("author")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+//@JsonProperty("author")(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "journalist_Id")
-    @JsonIgnore
+    //@JsonIgnore
     private Journaliste author;
 
 //    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
@@ -151,6 +152,11 @@ public class Article implements Serializable {
         this.tags = tags;
         //this.categories = categories;
         this.countries = countries;
+    }
+    public Article(@NotNull String titre, String content, Language languageArticle) {
+        this.titre = titre;
+        this.content = content;
+        LanguageArticle = languageArticle;
     }
 
 //    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {

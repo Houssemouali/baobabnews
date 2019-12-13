@@ -71,7 +71,7 @@ public class AuthJournalistController {
 
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpJournalistForm signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpJournalistForm signUpRequest,@RequestParam("file") MultipartFile cvFile,@RequestParam("file") MultipartFile portefolioFile) {
         if (journalistRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
