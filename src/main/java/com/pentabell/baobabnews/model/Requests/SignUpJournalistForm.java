@@ -95,7 +95,7 @@ public class SignUpJournalistForm {
     public Set<String> getRole() {
     	return this.role;
     }
-    
+
     public void setRole(Set<String> role) {
     	this.role = role;
     }

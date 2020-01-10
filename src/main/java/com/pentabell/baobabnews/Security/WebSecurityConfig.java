@@ -25,7 +25,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        prePostEnabled = true
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     @Autowired
@@ -45,7 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-
+    @Bean
+    public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+        return new JwtAuthTokenFilter();
+    }
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -56,8 +61,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
+
                 .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+//                .withUser("user").password("password").roles("ADMIN").and()
+//                .withUser("user").password("password").roles("Moderateur").and()
+//                .withUser("user").password("password").roles("Journalist");
+                .withUser("user").password("password").roles("USER","ADMIN","Journalist","Moderateur");
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -77,46 +86,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable().authorizeRequests().anyRequest().permitAll();
+        //http.cors().and().csrf().disable().authorizeRequests().anyRequest().permitAll();
 
-//        http.cors().and().csrf().disable().
-//                authorizeRequests()
-//                .antMatchers("/**"
-//                       ).permitAll()
-//                .anyRequest().authenticated().and()
-//                .httpBasic()
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class).authorizeRequests()
-//                .antMatchers(HttpMethod.OPTIONS, "/*").permitAll();
-//
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        final CorsConfiguration config = new CorsConfiguration();
-//
-//        config.addAllowedOrigin("*");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("GET");
-//        config.addAllowedMethod("PUT");
-//        config.addAllowedMethod("POST");
-//        source.registerCorsConfiguration("/**", config);
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class,new JwtAuthTokenFilter(), LogoutFilter.class).authorizeRequests()
-//                .antMatchers(HttpMethod.OPTIONS, "/*").permitAll();
+        http.cors().and().csrf().disable().
+                authorizeRequests()
+               .antMatchers("/api/**","/journalist/**").permitAll()
+//                .antMatchers("/journalist/auth/signin/**").permitAll()
+//                .antMatchers("/api/Moderator/signin/**").permitAll()
+                //.antMatchers("/api/**","/journalist/**").permitAll()
+                //.hasRole("ADMIN")
+//                .antMatchers("/journalist/**").hasRole("Journalist")
+//                .antMatchers("/api/Moderator/**").hasRole("Moderateur")
+                .anyRequest().authenticated().and()
+                .httpBasic()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        source.registerCorsConfiguration("/**", config);
+        //http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+
 
 }
 

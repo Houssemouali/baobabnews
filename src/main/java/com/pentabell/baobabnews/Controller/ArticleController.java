@@ -1,18 +1,28 @@
 package com.pentabell.baobabnews.Controller;
 
 import com.pentabell.baobabnews.Repositories.ArticleRepository;
+import com.pentabell.baobabnews.Repositories.ArticleSearchRepository;
 import com.pentabell.baobabnews.Repositories.CategoryRepository;
+import com.pentabell.baobabnews.Security.JwtAuthTokenFilter;
+import com.pentabell.baobabnews.Security.JwtProvider;
+import com.pentabell.baobabnews.Security.UserPrinciple;
 import com.pentabell.baobabnews.ServiceImpl.ArticleService;
 import com.pentabell.baobabnews.ServiceImpl.CategoryService;
 import com.pentabell.baobabnews.model.*;
 import com.pentabell.baobabnews.model.Requests.ArticleForm;
 import com.pentabell.baobabnews.model.Response.ResponseMessage;
+import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -28,6 +38,8 @@ public class ArticleController {
     ArticleRepository arepo;
     @Autowired
     CategoryRepository cra;
+    @Autowired
+    ArticleSearchRepository ArtRepo;
 
     @Autowired
     private ArticleService articleService;
@@ -35,6 +47,14 @@ public class ArticleController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private JwtProvider tokenProvider;
+
+    private JwtAuthTokenFilter jwtAuthFilter;
+
+
+    @Autowired
+    private AuthJournalistController journalistDetails;
 
 //    public Category getCatbyId(Long catID){
 //        return categoryList.stream().filter(
@@ -61,8 +81,19 @@ public class ArticleController {
         HashSet<Country> strcountry = article.getCountries();
 //        Language lang=new Language();
 //        Journaliste author=new Journaliste();
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            String currentUserName = authentication.getName();
+//            System.out.println(currentUserName);
+//        }
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        String AuthorUsername=userDetails.getUsername().toString();
+        //System.out.println("User has name: " + AuthorUsername);
 
 
+//        String token=tokenProvider.generateJwtToken();
+//        String jwt=tokenProvider.getUserNameFromJwtToken()
+//        String username=tokenProvider.getUserNameFromJwtToken(jwt);
         strCategory.forEach(category -> {
             switch (category) {
                 case "economie":
@@ -140,4 +171,16 @@ public class ArticleController {
         return articleService.checkIfIdIsPresentandReturnAuthor(id);
     }
 
+    //Search Article
+    //example of link in json http://localhost:8080/api/article/articleFind?search=(titre:'test lundi')
+    @GetMapping("/articleFind")
+    public ResponseEntity<List<Article>> searchForCars(@SearchSpec Specification<Article> articleSpecification){
+        return new ResponseEntity<>(ArtRepo.findAll(Specification.where(articleSpecification)),HttpStatus.FOUND);
+    }
+
+    @GetMapping(value="/articleBy/{journalistId}")
+    public List<Article> getMyArticle(@PathVariable Long journalistId){
+        //return arepo.findArticlesByAuthor(journalistId);
+        return arepo.findArticlesByAuthor(journalistId);
+    }
 }
