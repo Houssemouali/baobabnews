@@ -26,12 +26,12 @@ public class BookedArticle{
 
 
     @ManyToOne(fetch = FetchType.LAZY,
-            targetEntity=Internaute.class,
+            targetEntity=Users.class,
             cascade = CascadeType.PERSIST)
-    @MapsId("internauteID")
+    @MapsId("userID")
 //    @JoinColumn(name = "id", insertable = false, updatable = false)
 //   @MapsId("InternauteID")
-    Set<Internaute> internautes;
+    Set<Users> usersBookmark;
 
     //test lenovo
     @Column(name="ArticleDateSaved")

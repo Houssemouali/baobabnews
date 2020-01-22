@@ -7,14 +7,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ArticleBookedID implements Serializable {
+public class ArticleRatingID implements Serializable {
+
     @Column(name="ArticleID")
     private Long articleID;
 
     @Column(name = "UserId")
-    private Long user_id;
+    private Long UserId;
 
-    //@ManyToOne
+    @ManyToOne
     public Long getArticleID() {
         return articleID;
     }
@@ -22,25 +23,25 @@ public class ArticleBookedID implements Serializable {
     public void setArticleID(Long articleID) {
         this.articleID = articleID;
     }
-    //@ManyToOne
-    public Long getInternauteId() {
-        return user_id;
+    @ManyToOne
+    public Long getUserId() {
+        return UserId;
     }
 
-    public void setInternauteId(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long UserId) {
+        this.UserId = UserId;
     }
 
-    public ArticleBookedID(Long articleID, Long user_id) {
+    public ArticleRatingID(Long articleID, Long UserId) {
         this.articleID = articleID;
-        this.user_id = user_id;
+        this.UserId = UserId;
     }
 
-    public ArticleBookedID() {
+    public ArticleRatingID() {
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(articleID, user_id);
+        return Objects.hash(articleID, UserId);
     }
 }

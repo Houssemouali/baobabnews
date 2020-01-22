@@ -32,6 +32,11 @@ public class Article implements Serializable {
     @Lob
     private String content;
 
+    @Lob
+    @Column(name="image", columnDefinition="mediumblob")
+    private byte[] pic;
+
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -86,6 +91,13 @@ public class Article implements Serializable {
             orphanRemoval = true, cascade = CascadeType.PERSIST)
     @JsonIgnore
     public Set<BookedArticle> internautes = new HashSet<>();
+
+    //rating article
+    @OneToMany(mappedBy = "articles",
+            cascade = javax.persistence.CascadeType.PERSIST,
+            orphanRemoval = true)
+    public Set<ArticleRating>articleRatings= new HashSet<>();
+
 //(cascade = {CascadeType.ALL})( optional = true,cascade ={CascadeType.ALL})
 //@JsonProperty("author")(cascade = CascadeType.ALL)
     @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
@@ -127,13 +139,14 @@ public class Article implements Serializable {
         this.author = author;
     }
 
-    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Set<Category> categories, Journaliste author) {
+    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Set<Category> categories, Journaliste author,byte[] pic) {
         this.titre = titre;
         this.content = content;
         this.date = date;
         LanguageArticle = languageArticle;
         this.categories = categories;
         this.author = author;
+        this.pic=pic;
     }
 
     //
@@ -239,5 +252,13 @@ public class Article implements Serializable {
 
     public void setCountries(Set<Country> countries) {
         this.countries = countries;
+    }
+
+    public byte[] getPic() {
+        return pic;
+    }
+
+    public void setPic(byte[] pic) {
+        this.pic = pic;
     }
 }

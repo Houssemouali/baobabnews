@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="problem")
@@ -19,10 +20,20 @@ public class Problem {
 
     @Column(name="description", columnDefinition="TEXT")
     private String description;
-
+//
+//    @ManyToOne
+//    @JoinColumn (name="internaute_ID")
+//    private Internaute internautes;
+//
+//    @ManyToOne
+//    @JoinColumn(name="journalist_id")
+//    private Journaliste journalistes;
     @ManyToOne
-    @JoinColumn (name="internauteId")
-    private Internaute internautes;
+    @JoinColumn(name="user_id_iuj")
+    private Users users_pp;
+
+    @OneToMany(mappedBy = "problems")
+    private Set<Signalisation> signalisationSet;
 
     public int getId() {
         return id;

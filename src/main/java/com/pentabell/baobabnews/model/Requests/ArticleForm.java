@@ -42,6 +42,8 @@ public class ArticleForm {
 
     @JsonProperty("country")
     private HashSet<Country> countries;
+    @JsonProperty("image")
+    private byte[] pic;
 
     public String getTitle() {
         return title;
@@ -105,5 +107,13 @@ public class ArticleForm {
 
     public void setCountries(HashSet<Country> countries) {
         this.countries = countries;
+    }
+
+    public byte[] getPic() {
+        return pic;
+    }
+
+    public void setPic(byte[] pic) {
+        this.pic = pic;
     }
 }

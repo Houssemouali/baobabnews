@@ -24,12 +24,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transaction;
 import javax.validation.Valid;
 import javax.websocket.Session;
 import java.util.*;
+
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/article")
@@ -52,9 +63,11 @@ public class ArticleController {
 
     private JwtAuthTokenFilter jwtAuthFilter;
 
+    public static final String uploadingDir = System.getProperty("user.dir") + "/uploadingDir/";
 
     @Autowired
     private AuthJournalistController journalistDetails;
+
 
 //    public Category getCatbyId(Long catID){
 //        return categoryList.stream().filter(
@@ -64,7 +77,7 @@ public class ArticleController {
 
     @PostMapping(path = "/AddArticle")
     @ResponseBody
-    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article) {
+    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article, @RequestParam("files") MultipartFile files) {
 //       for(Category c:article.getCategories()){
 //              Category cc=categoryService.getCatbyId(c.getId());
 //                     // cra.getOne(c.getId());
@@ -72,6 +85,9 @@ public class ArticleController {
 //            System.out.println("testing add = "+c.getId());
 //       }
 //       return null;
+
+        articleService.uploadFile(files);
+        String filename=files.getOriginalFilename();
         Article articlef = new Article(article.getTitle(), article.getContent(), article.getDate());
         Set<String> strCategory = article.getCategory();
         Set<Category> categories = new HashSet<>();
@@ -153,7 +169,22 @@ public class ArticleController {
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin("*")
     public Iterable<Article> getAllData() {
-        return arepo.findAll();
+
+        Iterable<Article> arts = arepo.findAll();
+
+        /*for (Article art : arts){
+            if (art.getAuthor() != null){
+                long id = art.getAuthor().getIdUser();
+                long count = 0;
+                for (Article a : arts){
+                    if (a.getAuthor().getIdUser() == id)
+                        count++;
+                }
+                art.getAuthor().setPostsNumber(count);
+            }
+        }*/
+
+        return arts;
     }
 
     @DeleteMapping(value = "/{id}")
@@ -177,10 +208,11 @@ public class ArticleController {
     public ResponseEntity<List<Article>> searchForCars(@SearchSpec Specification<Article> articleSpecification){
         return new ResponseEntity<>(ArtRepo.findAll(Specification.where(articleSpecification)),HttpStatus.FOUND);
     }
+//
+//    @GetMapping(value="/articleBy/{journalistId}")
+//    public List<Article> getMyArticle(@PathVariable Long journalistId){
+//        //return arepo.findArticlesByAuthor(journalistId);
+//        return arepo.findArticlesByAuthor(journalistId);
+//    }
 
-    @GetMapping(value="/articleBy/{journalistId}")
-    public List<Article> getMyArticle(@PathVariable Long journalistId){
-        //return arepo.findArticlesByAuthor(journalistId);
-        return arepo.findArticlesByAuthor(journalistId);
-    }
 }
