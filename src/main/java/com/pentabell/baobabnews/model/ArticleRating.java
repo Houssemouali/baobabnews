@@ -23,19 +23,19 @@ public class ArticleRating {
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,
             targetEntity=Article.class)
-//    @JoinColumn(
-//      name = "IdArticle", insertable = false, updatable = false)
+    @JoinColumn(
+      name = "IdArticle", insertable = false, updatable = false)
     @MapsId("ArticleID")
-    Set<Article> articles;
-
-
-    @ManyToOne(fetch = FetchType.LAZY,
-            targetEntity=Users.class,
+    //Set<Article> articlesSet;
+    private Article articlesSet;
+//
+//
+    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Users.class,
             cascade = CascadeType.PERSIST)
-    @MapsId("UserId")
-//    @JoinColumn(name = "id", insertable = false, updatable = false)
+    //@MapsId("UserId")
+    @JoinColumn(name = "iduser", insertable = false, updatable = false)
 //   @MapsId("InternauteID")
-    Set<Users> users_rating;
+    private Users users_rating;
 
 
     @NotNull

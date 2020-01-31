@@ -17,13 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ArticleForm {
-    @NotBlank
-    @Size(min = 3, max = 80)
-    private String title;
 
-    @NotBlank
-    @Lob
-    private String content;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,24 +36,27 @@ public class ArticleForm {
 
     @JsonProperty("country")
     private HashSet<Country> countries;
-    @JsonProperty("image")
-    private byte[] pic;
+//    @JsonProperty("image")
+//    private byte[] pic;
 
-    public String getTitle() {
-        return title;
-    }
+    @JsonProperty("content")
+    private HashSet <ContentDetails>contentDetails;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+//    public String getContent() {
+//        return content;
+//    }
+//
+//    public void setContent(String content) {
+//        this.content = content;
+//    }
 
     public Date getDate() {
         return date;
@@ -77,13 +74,13 @@ public class ArticleForm {
         this.category = category;
     }
 
-    public Language getLanguageArticle() {
-        return LanguageArticle;
-    }
-
-    public void setLanguageArticle(Language languageArticle) {
-        LanguageArticle = languageArticle;
-    }
+//    public Language getLanguageArticle() {
+//        return LanguageArticle;
+//    }
+//
+//    public void setLanguageArticle(Language languageArticle) {
+//        LanguageArticle = languageArticle;
+//    }
 
     public Journaliste getAuthor() {
         return author;
@@ -109,11 +106,35 @@ public class ArticleForm {
         this.countries = countries;
     }
 
-    public byte[] getPic() {
-        return pic;
+//    public byte[] getPic() {
+//        return pic;
+//    }
+//
+//    public void setPic(byte[] pic) {
+//        this.pic = pic;
+//    }
+//
+
+    public HashSet<ContentDetails> getContentDetails() {
+        return contentDetails;
     }
 
-    public void setPic(byte[] pic) {
-        this.pic = pic;
+    public void setContentDetails(HashSet<ContentDetails> contentDetails) {
+        this.contentDetails = contentDetails;
     }
+
+//    public ContentDetails getContentDetails() {
+//        return contentDetails;
+//    }
+//
+//    public void setContentDetails(ContentDetails contentDetails) {
+//        this.contentDetails = contentDetails;
+//    }
+//    public ContentDetailsForm getContentDetails() {
+//        return contentDetails;
+//    }
+//
+//    public void setContentDetails(ContentDetailsForm contentDetails) {
+//        this.contentDetails = contentDetails;
+//    }
 }

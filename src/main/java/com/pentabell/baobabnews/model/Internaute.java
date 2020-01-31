@@ -10,13 +10,10 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.HashSet;
+import java.util.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "internaute")
@@ -26,7 +23,7 @@ import java.util.Set;
 @DiscriminatorValue("1")
 public class Internaute extends Users {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
     @Column(name = "Internaute_ID",unique = true, nullable = false )
     //@PrimaryKeyJoinColumn
@@ -35,8 +32,8 @@ public class Internaute extends Users {
     //@NotNull
     //@NotEmpty(message = "Please enter number")
     //@Pattern(regexp = "(^$|[0-9]{10})")
-    @Column(name = "numtel")
-    private long numtel;
+//    @Column(name = "numtel")
+//    private long numtel;
 
     //@NotNull
     //@NotEmpty
@@ -97,21 +94,28 @@ public class Internaute extends Users {
     private Set<Journaliste> journalists = new HashSet<>();
 
 
-    public Internaute(String email, String username, String password,long numtel, String langue, String pays_suivi, String nationality) {
+    public Internaute(String email, String username, String password, String langue, String pays_suivi, String nationality) {
         //super(email,username,password);
-        this.numtel = numtel;
+        //this.numtel = numtel;
         this.langue = langue;
         this.pays_suivi = pays_suivi;
         this.nationality = nationality;
     }
 
-    public Internaute(String email,String username, String password) {
+    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
+        super(email, username, password, numtel, nationality, dateNaissance);
+    }
+
+    public Internaute(String email, String username, String password) {
         super(email, username, password);
     }
 
 
     public Internaute() {
     }
+//
+//    public Internaute(String email, String username, String encode, Date datenaiss) {
+//    }
 
     public long getId() {
         return id;
@@ -121,13 +125,13 @@ public class Internaute extends Users {
         this.id = id;
     }
 
-    public long getNumtel() {
-        return numtel;
-    }
-
-    public void setNumtel(long numtel) {
-        this.numtel = numtel;
-    }
+//    public long getNumtel() {
+//        return numtel;
+//    }
+//
+//    public void setNumtel(long numtel) {
+//        this.numtel = numtel;
+//    }
 
     public String getLangue() {
         return langue;
@@ -157,8 +161,7 @@ public class Internaute extends Users {
     public String toString() {
         return "Internaute{" +
                 "id=" + id +
-                ", numtel=" + numtel +
-                ", langue='" + langue + '\'' +
+              ", langue='" + langue + '\'' +
                 ", pays_suivi='" + pays_suivi + '\'' +
                 ", nationality='" + nationality + '\'' +
                 '}';

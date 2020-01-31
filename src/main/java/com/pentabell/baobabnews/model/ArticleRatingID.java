@@ -13,7 +13,8 @@ public class ArticleRatingID implements Serializable {
     private Long articleID;
 
     @Column(name = "UserId")
-    private Long UserId;
+    private Long User_id;
+
 
     @ManyToOne
     public Long getArticleID() {
@@ -23,18 +24,19 @@ public class ArticleRatingID implements Serializable {
     public void setArticleID(Long articleID) {
         this.articleID = articleID;
     }
+
     @ManyToOne
-    public Long getUserId() {
-        return UserId;
+    public Long getUser_id() {
+        return User_id;
     }
 
-    public void setUserId(Long UserId) {
-        this.UserId = UserId;
+    public void setUser_id(Long user_id) {
+        User_id = user_id;
     }
 
     public ArticleRatingID(Long articleID, Long UserId) {
         this.articleID = articleID;
-        this.UserId = UserId;
+        this.User_id = UserId;
     }
 
     public ArticleRatingID() {
@@ -42,6 +44,6 @@ public class ArticleRatingID implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(articleID, UserId);
+        return Objects.hash(articleID, User_id);
     }
 }

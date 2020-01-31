@@ -22,18 +22,26 @@ public class Journaliste extends Users  {
     private long id;
 
 
-    private long postsNumber = 0;
+//    private long postsNumber = 0;
+//
+//
+//
+//
+//    public long getPostsNumber() {
+//        return postsNumber;
+//    }
+//
+//    public void setPostsNumber(long postsNumber) {
+//        this.postsNumber = postsNumber;
+//    }
 
+    @Size(min=2 ,max=30)
+    @Column(name="name")
+    private String nom;
 
-    public long getPostsNumber() {
-        return postsNumber;
-    }
-
-    public void setPostsNumber(long postsNumber) {
-        this.postsNumber = postsNumber;
-    }
-
-
+    @Size(min=2 ,max=30)
+    @Column(name="surname")
+    private String prenom;
 
     //portefolio
     @Lob
@@ -97,14 +105,14 @@ public class Journaliste extends Users  {
 //        this.numtel = numtel;
 //    }
 //
-//    public String getNom() {
-//        return nom;
-//    }
-//
-//    public void setNom(String nom) {
-//        this.nom = nom;
-//    }
-//
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
 //    public String getPrenom() {
 //        return prenom;
 //    }
@@ -213,12 +221,28 @@ public class Journaliste extends Users  {
         this.motivationtext = motivationtext;
         this.articles = articles;
         this.internautes = internautes;
+        this.internautes = internautes;
     }
+
 
     public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         super(email, username, password);
     }
-//,int experience
+
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email,@NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance, int experience, String entrepriseActuelle, String motivationtext,String nom,String prenom, byte[] cv, byte[] portefolio) {
+        super(email,username, password, numtel, nationality, dateNaissance);
+        Experience = experience;
+        EntrepriseActuelle = entrepriseActuelle;
+        this.motivationtext = motivationtext;
+        this.nom=nom;
+        this.prenom=prenom;
+        this.cv=cv;
+        this.portefolio=portefolio;
+    }
+//    public Journaliste(String email, String username, String password, String actualEntreprise, String nationality, int experience, String nom, String prenom, String numtel, Date datenaiss, String motivationtext, byte[] cv, byte[] portefolio) {
+//    }
+
+    //,int experience
 //    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password,
 //                       String entrepriseActuelle ,String nationality,int experience) {
 //        super(email, username, password);
@@ -242,7 +266,7 @@ public class Journaliste extends Users  {
         //this.dateNaissance = dateNaissance;
         this.motivationtext = motivationtext;
         this.portefolio = portefolio;
-       this.cv = cv;
+        this.cv = cv;
     }
 
 

@@ -19,19 +19,19 @@ public class BookedArticle{
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,
             targetEntity=Article.class)
-//    @JoinColumn(
-//      name = "IdArticle", insertable = false, updatable = false)
-    @MapsId("ArticleID")
-    Set<Article> articles;
+    @JoinColumn(
+      name = "IdArticle", insertable = false, updatable = false)
+    //@MapsId("ArticleID")
+    private Article articles;
 
 
     @ManyToOne(fetch = FetchType.LAZY,
             targetEntity=Users.class,
             cascade = CascadeType.PERSIST)
-    @MapsId("userID")
-//    @JoinColumn(name = "id", insertable = false, updatable = false)
+    //@MapsId("userID")
+    @JoinColumn(name = "id_user", insertable = false, updatable = false)
 //   @MapsId("InternauteID")
-    Set<Users> usersBookmark;
+    private Users usersBookmark;
 
     //test lenovo
     @Column(name="ArticleDateSaved")

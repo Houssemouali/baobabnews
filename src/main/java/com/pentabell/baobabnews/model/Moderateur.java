@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Entity
 @Table(name="moderateur")
@@ -18,8 +19,6 @@ public class Moderateur extends Users {
 //    @NotNull
 //    @NotEmpty
     //@Pattern(regexp = "(^$|[0-9]{10})")
-    @Column(name = "numtel")
-    private long numtel;
 
     public int getId() {
         return id;
@@ -29,13 +28,6 @@ public class Moderateur extends Users {
         this.id = id;
     }
 
-    public long getNumtel() {
-        return numtel;
-    }
-
-    public void setNumtel(long numtel) {
-        this.numtel = numtel;
-    }
 
     public Moderateur(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         super(email, username, password);
@@ -43,7 +35,10 @@ public class Moderateur extends Users {
 
     public Moderateur(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, @NotNull @NotEmpty @Pattern(regexp = "(^$|[0-9]{10})") long numtel) {
         super(email, username, password);
-        this.numtel = numtel;
+    }
+
+    public Moderateur(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
+        super(email, username, password, numtel, nationality, dateNaissance);
     }
 
     public Moderateur() {
