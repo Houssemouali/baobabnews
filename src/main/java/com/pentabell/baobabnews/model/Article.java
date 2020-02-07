@@ -23,18 +23,9 @@ public class Article implements Serializable {
     //@Column(name = "Article_ID", unique = true, nullable = false)
     private long IdArticle;
 
-    @NotNull
-    @Column(name = "title")
-    private String titre;
-
-    @NotNull
-    @Column(name = "content")
-    @Lob
-    private String content;
-
-    @Lob
-    @Column(name="image", columnDefinition="mediumblob")
-    private byte[] pic;
+//    @Lob
+//    @Column(name="image", columnDefinition="mediumblob")
+//    private byte[] pic;
 
 
     @NotNull
@@ -43,6 +34,11 @@ public class Article implements Serializable {
     @Column(name = "dateCreated")
     private Date date = new Date();
 
+    @Column(name="status")
+    private String status="en cours";
+
+    @Column(name="link")
+    private String link;
     /*Tag reference*/
     @ManyToMany(fetch = FetchType.EAGER,
             cascade =
@@ -54,11 +50,11 @@ public class Article implements Serializable {
     private Set<Tag> tags = new HashSet<>();
 
     /*Article language*/
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    //@JsonProperty("language")
-    //@JsonIgnore
-    private Language LanguageArticle;
+//    @ManyToOne
+//    @JoinColumn(name = "language_id")
+//    //@JsonProperty("language")
+//    //@JsonIgnore
+//    private Language LanguageArticle;
     /*country reference*/
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -69,6 +65,23 @@ public class Article implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "country_id")})
     //@JsonProperty("country")
     private Set<Country> countries = new HashSet<>();
+
+    //Content oneToOne Reference for article
+//    @OneToOne(fetch = FetchType.LAZY,
+//            cascade =  CascadeType.ALL ,
+//            mappedBy = "article")
+
+    //last version that work but without article id
+//    @OneToMany(fetch=FetchType.LAZY,
+//                cascade = CascadeType.ALL,
+//                mappedBy = "article")
+//    private Set<ContentDetails> contentDetails;
+@OneToMany(cascade = CascadeType.ALL)
+@JoinTable(name="Article_Content",
+        joinColumns = @JoinColumn(name="Article_id"),
+        inverseJoinColumns = @JoinColumn(name="Content_id")
+)
+private Set<ContentDetails> contentDetails;
 
     /*Category reference*/
     //@JsonProperty("category")
@@ -93,7 +106,7 @@ public class Article implements Serializable {
     public Set<BookedArticle> internautes = new HashSet<>();
 
     //rating article
-    @OneToMany(mappedBy = "articles",
+    @OneToMany(mappedBy = "articlesSet",
             cascade = javax.persistence.CascadeType.PERSIST,
             orphanRemoval = true)
     public Set<ArticleRating>articleRatings= new HashSet<>();
@@ -105,72 +118,76 @@ public class Article implements Serializable {
     //@JsonIgnore
     private Journaliste author;
 
-//    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
-//        this.titre = titre;
-//        this.content = content;
-//        this.date = date;
-//        this.LanguageArticle = languageArticle;
-//        this.author = author;
-//    }
+    @OneToMany(mappedBy = "articless",
+            cascade = {CascadeType.MERGE},
+            fetch = FetchType.LAZY)
+    private Set<Image> images ;
+
+
 
     public Article() {
     }
 
-//    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle) {
-//        this.titre = titre;
-//        this.content = content;
-//        this.date = date;
-//        LanguageArticle = languageArticle;
-//    }
 
-    public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Tag tags, Language languageArticle, Country countries, Category categories, Journaliste author) {
-        this.titre = titre;
-        this.content = content;
+//@NotNull String titre, @NotNull String content,, Language languageArticle
+    public Article( @NotNull Date date, Tag tags, Country countries, Category categories, Journaliste author) {
+        //this.titre = titre;
+        //this.content = content;
         this.date = date;
-        LanguageArticle = languageArticle;
+        //LanguageArticle = languageArticle;
         this.author = author;
     }
 
     public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Journaliste author) {
-        this.titre = titre;
-        this.content = content;
+        //this.titre = titre;
+        //this.content = content;
         this.date = date;
-        LanguageArticle = languageArticle;
+        //LanguageArticle = languageArticle;
         this.author = author;
     }
 
     public Article(@NotNull String titre, @NotNull String content, @NotNull Date date, Language languageArticle, Set<Category> categories, Journaliste author,byte[] pic) {
-        this.titre = titre;
-        this.content = content;
+        //this.titre = titre;
+        //this.content = content;
         this.date = date;
-        LanguageArticle = languageArticle;
+        //LanguageArticle = languageArticle;
         this.categories = categories;
         this.author = author;
-        this.pic=pic;
     }
 
     //
     public Article(@NotNull String titre, @NotNull String content, Date date) {
-        this.titre = titre;
-        this.content = content;
+        //this.titre = titre;
+        //this.content = content;
         this.date = date;
     }
 
     public Article(@NotNull String titre, String content,  Language languageArticle, Journaliste author, Set<Tag> tags,  Set<Country> countries) {
-        this.titre = titre;
-        this.content = content;
+        //this.titre = titre;
+        //this.content = content;
         //this.date = date;
-        LanguageArticle = languageArticle;
+        //LanguageArticle = languageArticle;
         this.author = author;
         this.tags = tags;
         //this.categories = categories;
         this.countries = countries;
     }
     public Article(@NotNull String titre, String content, Language languageArticle) {
-        this.titre = titre;
-        this.content = content;
-        LanguageArticle = languageArticle;
+        //this.titre = titre;
+        //this.content = content;
+        //LanguageArticle = languageArticle;
     }
+
+    public Article(String title, ContentDetails contentDetails, Date date) {
+
+    }
+
+    public Article(Date date) {
+    }
+    public Article(Date date,String status){
+
+    }
+
 
 //    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {
 //    }
@@ -188,21 +205,7 @@ public class Article implements Serializable {
         IdArticle = idArticle;
     }
 
-    public String getTitre() {
-        return titre;
-    }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public Date getDate() {
         return date;
@@ -212,13 +215,6 @@ public class Article implements Serializable {
         this.date = date;
     }
 
-    public Language getLanguageArticle() {
-        return LanguageArticle;
-    }
-
-    public void setLanguageArticle(Language languageArticle) {
-        LanguageArticle = languageArticle;
-    }
 
     //
     public Journaliste getAuthor() {
@@ -254,11 +250,20 @@ public class Article implements Serializable {
         this.countries = countries;
     }
 
-    public byte[] getPic() {
-        return pic;
+
+    public void setContentDetails(Set<ContentDetails> contentDetails) {
+        this.contentDetails = contentDetails;
     }
 
-    public void setPic(byte[] pic) {
-        this.pic = pic;
+    public Set<ContentDetails> getContentDetails() {
+        return contentDetails;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

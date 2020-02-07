@@ -1,9 +1,12 @@
 package com.pentabell.baobabnews.model.Requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.Set;
 
 public class SignUpModeratorForm {
@@ -22,8 +25,14 @@ public class SignUpModeratorForm {
     @Size(min = 6, max = 100)
     private String password;
 
-    //@NotNull
-    private int numtel;
+
+    @NotBlank
+    private String nationality;
+
+    private String numtel;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date datenaiss;
 
 
     public String getUsername() {
@@ -58,11 +67,27 @@ public class SignUpModeratorForm {
         this.password = password;
     }
 
-    public int getNumtel() {
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getNumtel() {
         return numtel;
     }
 
-    public void setNumtel(int numtel) {
+    public void setNumtel(String numtel) {
         this.numtel = numtel;
+    }
+
+    public Date getDatenaiss() {
+        return datenaiss;
+    }
+
+    public void setDatenaiss(Date datenaiss) {
+        this.datenaiss = datenaiss;
     }
 }

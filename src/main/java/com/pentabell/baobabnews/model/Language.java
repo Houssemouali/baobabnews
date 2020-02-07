@@ -22,8 +22,14 @@ public class Language {
     @Column(name = "languageN")
     private String LanguageName;
 
-    @OneToMany(mappedBy = "LanguageArticle", cascade = {CascadeType.PERSIST})
-    private Set<Article>articles;
+//    @OneToMany(mappedBy = "LanguageArticle", cascade = {CascadeType.PERSIST})
+//    private Set<Article>articles;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade =  CascadeType.MERGE,
+            mappedBy = "languageArticle")
+    private Set<ContentDetails> contentDetails;
+
 
     public Language() {
     }
@@ -31,7 +37,7 @@ public class Language {
     public Language(Long id, @NotNull String languageName, Set<Article> articles) {
         this.id = id;
         LanguageName = languageName;
-        this.articles = articles;
+        //this.articles = articles;
     }
 
     public Long getId() {

@@ -1,18 +1,16 @@
 package com.pentabell.baobabnews.Controller;
 
+import com.pentabell.baobabnews.Repositories.AdminRepository;
 import com.pentabell.baobabnews.Repositories.ModeratorRepository;
 import com.pentabell.baobabnews.Repositories.RoleRepository;
 import com.pentabell.baobabnews.Security.JwtProvider;
 import com.pentabell.baobabnews.Security.response.JwtResponse;
-import com.pentabell.baobabnews.model.Internaute;
-import com.pentabell.baobabnews.model.Moderateur;
+import com.pentabell.baobabnews.model.*;
 import com.pentabell.baobabnews.model.Requests.LoginAdminForm;
 import com.pentabell.baobabnews.model.Requests.LoginForm;
 import com.pentabell.baobabnews.model.Requests.SignUpAdminForm;
 import com.pentabell.baobabnews.model.Requests.SignUpModeratorForm;
 import com.pentabell.baobabnews.model.Response.ResponseMessage;
-import com.pentabell.baobabnews.model.Role;
-import com.pentabell.baobabnews.model.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,6 +46,9 @@ public class AdminController {
 
     @Autowired
     ModeratorRepository mRepo;
+
+    @Autowired
+    AdminRepository adminRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -86,7 +87,13 @@ public class AdminController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        Moderateur user=new Moderateur(moderatorForm.getEmail(),moderatorForm.getUsername(),encoder.encode(moderatorForm.getPassword()),moderatorForm.getNumtel());
+        Moderateur user=new Moderateur(moderatorForm.getEmail(),
+                moderatorForm.getUsername(),
+                encoder.encode(moderatorForm.getPassword())
+                ,moderatorForm.getNumtel(),
+                moderatorForm.getNationality(),
+                moderatorForm.getDatenaiss()
+               );
 
         Set<String> strRoles = moderatorForm.getRole();
         Set<Role> roles = new HashSet<>();
@@ -130,19 +137,25 @@ public class AdminController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        Moderateur user=new Moderateur(adminFormForm.getEmail(),adminFormForm.getUsername(),encoder.encode(adminFormForm.getPassword()));
+        Admin user=new Admin(adminFormForm.getEmail(),
+                adminFormForm.getUsername(),
+                encoder.encode(adminFormForm.getPassword()),
+                adminFormForm.getNumtel(),
+               adminFormForm.getNationality(),
+                adminFormForm.getDatenaiss()
+        );
 
         Set<String> strRoles = adminFormForm.getRole();
         Set<Role> roles = new HashSet<>();
 
         strRoles.forEach(role->{
             switch (role){
-                case "admin":
-                    Role mRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Admin Role not find."));
-                    roles.add(mRole);
-
-                    break;
+//                case "admin":
+//                    Role mRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Admin Role not find."));
+//                    roles.add(mRole);
+//
+//                    break;
                 default:
                     Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
@@ -150,7 +163,7 @@ public class AdminController {
             }
         });
         user.setRoles(roles);
-        mRepo.save(user);
+        adminRepository.save(user);
         return new ResponseEntity<>(new ResponseMessage("Admin registered successfully"),HttpStatus.CREATED);
     }
 

@@ -90,32 +90,32 @@ public  class ArticleService  {
     }
 
 
-    public Article updateVehicle(long id, Article articleDTO) {
-
-        if (articlerepo.findById(id).isPresent()){
-            Article existingArticle = articlerepo.findById(id).get();
-            java.sql.Timestamp datea = new java.sql.Timestamp(new java.util.Date().getTime());
-            Date actualDate=datea;
-            existingArticle.setTitre(articleDTO.getTitre());
-            existingArticle.setContent(articleDTO.getContent());
-            existingArticle.setLanguageArticle(articleDTO.getLanguageArticle());
-            existingArticle.setAuthor(articleDTO.getAuthor());
-            existingArticle.setDate(articleDTO.getDate());
-            existingArticle.setTags(articleDTO.getTags());
-
-            Article updatedArticle = articlerepo.save(existingArticle);
-
-            return new Article(updatedArticle.getTitre(),
-                    updatedArticle.getContent(),
-                    updatedArticle.getLanguageArticle(),
-            updatedArticle.getAuthor(),
-            updatedArticle.getTags(),
-                    updatedArticle.getCountries()
-            );
-        }else{
-            return null;
-        }
-    }
+//    public Article updateVehicle(long id, Article articleDTO) {
+//
+//        if (articlerepo.findById(id).isPresent()){
+//            Article existingArticle = articlerepo.findById(id).get();
+//            java.sql.Timestamp datea = new java.sql.Timestamp(new java.util.Date().getTime());
+//            Date actualDate=datea;
+//            existingArticle.setTitre(articleDTO.getTitre());
+//            existingArticle.setContent(articleDTO.getContent());
+//            existingArticle.setLanguageArticle(articleDTO.getLanguageArticle());
+//            existingArticle.setAuthor(articleDTO.getAuthor());
+//            existingArticle.setDate(articleDTO.getDate());
+//            existingArticle.setTags(articleDTO.getTags());
+//
+//            Article updatedArticle = articlerepo.save(existingArticle);
+//
+//            return new Article(updatedArticle.getTitre(),
+//                    updatedArticle.getContent(),
+//                    updatedArticle.getLanguageArticle(),
+//            updatedArticle.getAuthor(),
+//            updatedArticle.getTags(),
+//                    updatedArticle.getCountries()
+//            );
+//        }else{
+//            return null;
+//        }
+//    }
 
 
 }

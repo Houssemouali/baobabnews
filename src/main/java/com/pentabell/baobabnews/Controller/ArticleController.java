@@ -1,5 +1,6 @@
 package com.pentabell.baobabnews.Controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.pentabell.baobabnews.Repositories.ArticleRepository;
 import com.pentabell.baobabnews.Repositories.ArticleSearchRepository;
 import com.pentabell.baobabnews.Repositories.CategoryRepository;
@@ -10,6 +11,7 @@ import com.pentabell.baobabnews.ServiceImpl.ArticleService;
 import com.pentabell.baobabnews.ServiceImpl.CategoryService;
 import com.pentabell.baobabnews.model.*;
 import com.pentabell.baobabnews.model.Requests.ArticleForm;
+import com.pentabell.baobabnews.model.Requests.ContentDetailsForm;
 import com.pentabell.baobabnews.model.Response.ResponseMessage;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +76,10 @@ public class ArticleController {
 //                (category) -> category.getId()==catID
 //        ).findFirst().get();
 //    }
-
+//, @RequestParam("files") MultipartFile files
     @PostMapping(path = "/AddArticle")
     @ResponseBody
-    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article, @RequestParam("files") MultipartFile files) {
+    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article,ContentDetailsForm contentform) {
 //       for(Category c:article.getCategories()){
 //              Category cc=categoryService.getCatbyId(c.getId());
 //                     // cra.getOne(c.getId());
@@ -86,30 +88,21 @@ public class ArticleController {
 //       }
 //       return null;
 
-        articleService.uploadFile(files);
-        String filename=files.getOriginalFilename();
-        Article articlef = new Article(article.getTitle(), article.getContent(), article.getDate());
+//        articleService.uploadFile(files);
+//        String filename=files.getOriginalFilename();
+        Article articlef = new Article(article.getDate(),article.getStatus());
         Set<String> strCategory = article.getCategory();
         Set<Category> categories = new HashSet<>();
-        Language strlang = article.getLanguageArticle();
+        //Language strlang = article.getLanguageArticle();
         Journaliste strauthor = article.getAuthor();
+        //ContentDetails contenus=article.getContentDetails();
+        HashSet<ContentDetails>setContent=article.getContentDetails();
         HashSet<Tag> strtag = article.getTags();
         HashSet<Country> strcountry = article.getCountries();
+        long id_article=articlef.getIdArticle();
 //        Language lang=new Language();
 //        Journaliste author=new Journaliste();
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String currentUserName = authentication.getName();
-//            System.out.println(currentUserName);
-//        }
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String AuthorUsername=userDetails.getUsername().toString();
-        //System.out.println("User has name: " + AuthorUsername);
-
-
-//        String token=tokenProvider.generateJwtToken();
-//        String jwt=tokenProvider.getUserNameFromJwtToken()
-//        String username=tokenProvider.getUserNameFromJwtToken(jwt);
         strCategory.forEach(category -> {
             switch (category) {
                 case "economie":
@@ -138,22 +131,23 @@ public class ArticleController {
         });
         articlef.setCategories(categories);
         articlef.setAuthor(strauthor);
-        articlef.setLanguageArticle(strlang);
+        //(after database changing) articlef.setLanguageArticle(strlang);
         articlef.setTags(strtag);
         articlef.setCountries(strcountry);
+        articlef.setContentDetails(setContent);
         //arepo.save(articlef);
-
+        System.out.println("---------"+id_article);
         return new ResponseEntity<>(arepo.save(articlef), HttpStatus.CREATED);
         //return arepo.save(article);
         //return cra.save(category);
     }
-
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Article> updateVehicle(@PathVariable(value = "id") Long id,
-                                                 @RequestBody Article articleUpdateDTO) {
-        return new ResponseEntity<>(articleService.updateVehicle(id, articleUpdateDTO), HttpStatus.OK);
-    }
+//after database changing
+//    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Article> updateVehicle(@PathVariable(value = "id") Long id,
+//                                                 @RequestBody Article articleUpdateDTO) {
+//        return new ResponseEntity<>(articleService.updateVehicle(id, articleUpdateDTO), HttpStatus.OK);
+//    }
 
     //    @PutMapping(value="/{articleId}/categories",consumes=MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity addCategoryToMenu(

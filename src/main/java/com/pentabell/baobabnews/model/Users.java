@@ -27,7 +27,7 @@ import java.util.Set;
 @JsonIgnoreProperties
 public class Users implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Cascade(CascadeType.ALL)
 //    ,generator="myseq"
 //    @SequenceGenerator(name="myseq",sequenceName="MY_SEQ",allocationSize = 1, initialValue= 1)
@@ -71,10 +71,6 @@ public class Users implements Serializable {
     private Set<Role> roles = new HashSet<>();
 
 
-
-
-
-//
     @OneToMany(mappedBy ="users_pp" )
     private Set<Problem>problemas;
 
@@ -96,7 +92,8 @@ public class Users implements Serializable {
     @OneToMany(mappedBy = "users_rating",
         cascade = javax.persistence.CascadeType.PERSIST,
             orphanRemoval = true)
-    private Set<ArticleRating>articleRatings= new HashSet<>();
+    public Set<ArticleRating>articleRatings= new HashSet<>();
+    //private ArticleRating articleRatings;
 
     public Users(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         this.email = email;
@@ -109,8 +106,9 @@ public class Users implements Serializable {
     }
 
 
-    public Users(@NotBlank @Size(max = 50) @Email String email, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
+    public Users(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
         this.email = email;
+        this.username = username;
         this.password = password;
         this.numtel = numtel;
         this.nationality = nationality;

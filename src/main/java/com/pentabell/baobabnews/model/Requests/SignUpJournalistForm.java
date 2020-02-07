@@ -1,5 +1,7 @@
 package com.pentabell.baobabnews.model.Requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.validation.constraints.Email;
@@ -10,9 +12,14 @@ import java.util.Date;
 import java.util.Set;
 
 public class SignUpJournalistForm {
-//    @NotBlank
-//    @Size(min = 3, max = 50)
-//    private String name;
+
+    @NotBlank
+    @Size(min = 2, max = 30)
+    private String nom;
+
+    @NotBlank
+    @Size(min = 2, max = 30)
+    private String prenom;
 
     @NotBlank
     @Size(min = 3, max = 50)
@@ -38,18 +45,15 @@ public class SignUpJournalistForm {
     @NotNull
     private int experience;
 
-    @NotBlank
-    private String nom;
 
-    @NotBlank
-    private String prenom;
-
-    @NotNull
-    private int numtel;
+    private String numtel;
 
     //@NotBlank
     private String motivationtext;
 
+    private String status="en cours";
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date datenaiss;
 
     @Lob
@@ -60,13 +64,6 @@ public class SignUpJournalistForm {
     //@Column(name = "cv", columnDefinition="BLOB")
     private byte[] cv;
 
-//    public String getName() {
-//        return name;
-//    }
-
-//    public void setName(String name) {
-//        this.name = name;
-//    }
 
     public String getUsername() {
         return username;
@@ -140,11 +137,11 @@ public class SignUpJournalistForm {
         this.prenom = prenom;
     }
 
-    public int getNumtel() {
+    public String getNumtel() {
         return numtel;
     }
 
-    public void setNumtel(int numtel) {
+    public void setNumtel(String numtel) {
         this.numtel = numtel;
     }
 
@@ -178,5 +175,13 @@ public class SignUpJournalistForm {
 
     public void setCv(byte[] cv) {
         this.cv = cv;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

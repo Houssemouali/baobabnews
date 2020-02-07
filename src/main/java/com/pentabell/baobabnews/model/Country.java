@@ -14,7 +14,7 @@ public class Country {
 
     @NotNull
     @Size(max = 100)
-    @Column(name="label")
+    @Column(name="label",unique = true, nullable=false)
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER,

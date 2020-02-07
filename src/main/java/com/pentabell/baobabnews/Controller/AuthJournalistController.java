@@ -14,6 +14,7 @@ import com.pentabell.baobabnews.model.Requests.SignUpJournalistForm;
 import com.pentabell.baobabnews.model.Response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -98,10 +99,20 @@ public class AuthJournalistController {
 
 //for your segment file fill from client side(in request)
         // Creating user's account
-        Journaliste user = new Journaliste(signUpRequest.getEmail(), signUpRequest.getUsername(),
-                encoder.encode(signUpRequest.getPassword()), signUpRequest.getActualEntreprise(), signUpRequest.getNationality(), signUpRequest.getExperience(),
-                signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getNumtel(), signUpRequest.getDatenaiss(), signUpRequest.getMotivationtext(),
-                signUpRequest.getCv(), signUpRequest.getPortefolio());
+        Journaliste user = new Journaliste(signUpRequest.getEmail(),
+                        signUpRequest.getUsername(),
+                        encoder.encode(signUpRequest.getPassword()),
+                        signUpRequest.getNumtel(),
+                        signUpRequest.getNationality(),
+                signUpRequest.getDatenaiss(),
+                signUpRequest.getExperience(),
+                signUpRequest.getActualEntreprise(),
+                signUpRequest.getMotivationtext(),
+                signUpRequest.getNom(),
+                signUpRequest.getPrenom(),
+                signUpRequest.getCv(),
+                signUpRequest.getPortefolio(),
+                signUpRequest.getStatus());
 
         //filesJournalistService.storeFile(signUpRequest.getCv(),signUpRequest.getPortefolio());
         Set<String> strRoles = signUpRequest.getRole();
@@ -109,26 +120,26 @@ public class AuthJournalistController {
         //signUpRequest.setRole("journalist");
         strRoles.forEach(role -> {
             switch (role) {
-                case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not found."));
-                    roles.add(adminRole);
-
-                    break;
-                case "journalist":
-                    Role jRole = roleRepository.findByName(RoleName.ROLE_Journalist)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Journalist Role not found."));
-                    roles.add(jRole);
-
-                    break;
-                case "moderateur":
-                    Role mRole = roleRepository.findByName(RoleName.ROLE_Moderateur)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Moderator Role not find."));
-                    roles.add(mRole);
-
-                    break;
+//                case "admin":
+//                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not found."));
+//                    roles.add(adminRole);
+//
+//                    break;
+//                case "journalist":
+//                    Role jRole = roleRepository.findByName(RoleName.ROLE_Journalist)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Journalist Role not found."));
+//                    roles.add(jRole);
+//
+//                    break;
+//                case "moderateur":
+//                    Role mRole = roleRepository.findByName(RoleName.ROLE_Moderateur)
+//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Moderator Role not find."));
+//                    roles.add(mRole);
+//
+//                    break;
                 default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    Role userRole = roleRepository.findByName(RoleName.ROLE_Journalist)
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                     roles.add(userRole);
             }
@@ -185,5 +196,24 @@ public class AuthJournalistController {
     }
 
 
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin("*")
+    public Iterable<Journaliste> getAllData() {
+        Iterable<Journaliste> arts = journalistRepository.findAll();
+
+        /*for (Article art : arts){
+            if (art.getAuthor() != null){
+                long id = art.getAuthor().getIdUser();
+                long count = 0;
+                for (Article a : arts){
+                    if (a.getAuthor().getIdUser() == id)
+                        count++;
+                }
+                art.getAuthor().setPostsNumber(count);
+            }
+        }*/
+
+        return arts;
+    }
 
 }
