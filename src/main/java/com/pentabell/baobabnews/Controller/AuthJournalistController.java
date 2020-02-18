@@ -100,16 +100,16 @@ public class AuthJournalistController {
 //for your segment file fill from client side(in request)
         // Creating user's account
         Journaliste user = new Journaliste(signUpRequest.getEmail(),
-                        signUpRequest.getUsername(),
-                        encoder.encode(signUpRequest.getPassword()),
-                        signUpRequest.getNumtel(),
-                        signUpRequest.getNationality(),
+                signUpRequest.getUsername(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getNumtel(),
+                signUpRequest.getNationality(),
                 signUpRequest.getDatenaiss(),
                 signUpRequest.getExperience(),
                 signUpRequest.getActualEntreprise(),
                 signUpRequest.getMotivationtext(),
-                signUpRequest.getNom(),
-                signUpRequest.getPrenom(),
+                signUpRequest.getName(),
+                signUpRequest.getSurname(),
                 signUpRequest.getCv(),
                 signUpRequest.getPortefolio(),
                 signUpRequest.getStatus());

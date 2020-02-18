@@ -1,12 +1,9 @@
 package com.pentabell.baobabnews.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.module.kotlin.ReflectionCache;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -34,15 +31,15 @@ public class Users implements Serializable {
     private long IdUser;
 
 
-    @NotBlank
+ /*   @NotBlank
     @Size(max = 50)
-    @Email
+    @Email*/
     @Column(name = "email")
     @JsonIgnore
     private String email;
-
-    @NotBlank
-    @Size(min=3, max = 50)
+    /*
+        @NotBlank
+        @Size(min=3, max = 50)*/
     @Column(name = "username")
     private String username;
 
@@ -53,7 +50,7 @@ public class Users implements Serializable {
     //@JsonIgnore
     private String password;
 
-    @Pattern(regexp="(^$|[0-9]{11})")
+    /* @Pattern(regexp="(^$|[0-9]{11})")*/
     @Column(name="numtel")
     private String numtel;
 
@@ -101,7 +98,7 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public Users(@NotBlank @Size(min = 3, max = 50) String username) {
+    public Users(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String s, @NotBlank @Size(min = 6, max = 100) String password, long numtel, @NotBlank @Size(min = 3, max = 50) String username, Date dateNaissance) {
         this.username = username;
     }
 
@@ -115,7 +112,14 @@ public class Users implements Serializable {
         this.dateNaissance = dateNaissance;
     }
 
-    public Users(){
+    public Users(String email, String username, String password, String numtel, String nationality) {
+
+    }
+
+    public Users() {
+    }
+
+    public Users(String username) {
 
     }
 
@@ -151,6 +155,44 @@ public class Users implements Serializable {
         this.password = password;
     }
 
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public String getNumtel() {
+        return numtel;
+    }
+
+    public void setNumtel(String numtel) {
+        this.numtel = numtel;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public Set<Problem> getProblemas() {
+        return problemas;
+    }
+
+    public void setProblemas(Set<Problem> problemas) {
+        this.problemas = problemas;
+    }
+/* public Users(String email, String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, String numtel, Date dateNaissance) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.numtel = numtel;
+        this.dateNaissance = dateNaissance;
+    }*/
 
     public Set<Role> getRoles() {
         return roles;
@@ -159,6 +201,7 @@ public class Users implements Serializable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     @Override
     public String toString() {
         return "User{" +

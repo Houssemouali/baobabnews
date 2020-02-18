@@ -1,18 +1,9 @@
 package com.pentabell.baobabnews.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.javafx.beans.IDProperty;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.*;
 
-import java.io.Serializable;
 import java.util.HashSet;
 
 @Entity
@@ -89,18 +80,26 @@ public class Internaute extends Users {
                     CascadeType.MERGE
             })
     @JoinTable(name = "Followed_Journalist",
-            joinColumns = { @JoinColumn(name = "Internaute_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "journalist_id") })
+            joinColumns = {@JoinColumn(name = "Internaute_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "journalist_id")})
     private Set<Journaliste> journalists = new HashSet<>();
 
-
-    public Internaute(String email, String username, String password, String langue, String pays_suivi, String nationality) {
-        //super(email,username,password);
-        //this.numtel = numtel;
+    public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance, String langue, String pays_suivi) {
+        super(email, username, password, numtel, nationality, dateNaissance);
         this.langue = langue;
         this.pays_suivi = pays_suivi;
         this.nationality = nationality;
+
     }
+/*
+    public Internaute(String email, String username, String password, String numtel, String langue, String pays_suivi, String nationality) {
+        //super(email,username,password);
+        //this.numtel = numtel;
+        super(email, username, password, numtel, nationality, dateNaissance);
+        this.langue = langue;
+        this.pays_suivi = pays_suivi;
+        this.nationality = nationality;
+    }*/
 
     public Internaute(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
         super(email, username, password, numtel, nationality, dateNaissance);
@@ -111,8 +110,9 @@ public class Internaute extends Users {
     }
 
 
-    public Internaute() {
-    }
+//    public Internaute() {
+//        super(email, username, password, numtel, nationality);
+//    }
 //
 //    public Internaute(String email, String username, String encode, Date datenaiss) {
 //    }

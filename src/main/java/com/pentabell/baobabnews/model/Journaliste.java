@@ -1,8 +1,5 @@
 package com.pentabell.baobabnews.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
@@ -35,13 +32,13 @@ public class Journaliste extends Users  {
 //        this.postsNumber = postsNumber;
 //    }
 
-    @Size(min=2 ,max=30)
-    @Column(name="name")
-    private String nom;
+    @Size(min = 2, max = 30)
+    @Column(name = "name")
+    private String name;
 
-    @Size(min=2 ,max=30)
-    @Column(name="surname")
-    private String prenom;
+    @Size(min = 2, max = 30)
+    @Column(name = "surname")
+    private String surname;
 
     //portefolio
     @Lob
@@ -109,13 +106,6 @@ public class Journaliste extends Users  {
 //        this.numtel = numtel;
 //    }
 //
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
 //    public String getPrenom() {
 //        return prenom;
@@ -140,6 +130,23 @@ public class Journaliste extends Users  {
 //    public void setNationality(String nationality) {
 //        Nationality = nationality;
 //    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
     public byte[] getPortefolio() {
         return portefolio;
@@ -220,11 +227,12 @@ public class Journaliste extends Users  {
 //        this.articles = articles;
 //    }
 
-    public Journaliste(long numtel, @Size(max = 40) String nom, @Size(max = 40) String prenom, Date dateNaissance, String nationality, byte[] portefolio, byte[] cv, int experience, String entrepriseActuelle, String motivationtext, Set<Article> articles, Set<Internaute> internautes) {
+    /*ublic Journaliste(long numtel, @Size(max = 40) String name, @Size(max = 40) String surname, Date dateNaissance, String nationality, byte[] portefolio, byte[] cv, int experience, String entrepriseActuelle, String motivationtext, Set<Article> articles, Set<Internaute> internautes) {
 //        this.id = id;
         //this.numtel = numtel;
-//        this.nom = nom;
-//        this.prenom = prenom;
+   //     super(email, username, password, numtel, nationality);
+        this.name = name;
+     this.surname = surname;
         //this.dateNaissance = dateNaissance;
         //Nationality = nationality;
         this.portefolio = portefolio;
@@ -235,23 +243,33 @@ public class Journaliste extends Users  {
         this.articles = articles;
         this.internautes = internautes;
         this.internautes = internautes;
-    }
+    }*/
 
-
+/*
     public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password) {
         super(email, username, password);
-    }
+    }*/
 
-    public Journaliste(@NotBlank @Size(max = 50) @Email String email,@NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance, int experience, String entrepriseActuelle, String motivationtext,String nom,String prenom, byte[] cv, byte[] portefolio,String status) {
-        super(email,username, password, numtel, nationality, dateNaissance);
-        Experience = experience;
-        EntrepriseActuelle = entrepriseActuelle;
+    public Journaliste() {
+    }
+/*
+
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance) {
+        super(email, username, password, numtel, nationality, dateNaissance);
+    }
+*/
+
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance, int experience, String entrepriseActuelle, String motivationtext, String name, String surname, byte[] cv, byte[] portefolio, String status) {
+        super(email, username, password, numtel, nationality, dateNaissance);
+
+        this.Experience = experience;
+        this.EntrepriseActuelle = entrepriseActuelle;
         this.motivationtext = motivationtext;
-        this.nom=nom;
-        this.prenom=prenom;
-        this.cv=cv;
-        this.portefolio=portefolio;
-        this.status=status;
+        this.name = name;
+        this.surname = surname;
+        this.cv = cv;
+        this.portefolio = portefolio;
+        this.status = status;
     }
 //    public Journaliste(String email, String username, String password, String actualEntreprise, String nationality, int experience, String nom, String prenom, String numtel, Date datenaiss, String motivationtext, byte[] cv, byte[] portefolio) {
 //    }
@@ -267,17 +285,16 @@ public class Journaliste extends Users  {
 //    }
 //public Journaliste(String email, String username, String encode, String actualEntreprise, String nationality, int experience, String nom, String prenom, int numtel, Date datenaiss, String motivationtext) {
 //}
-    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password,
-                       String entrepriseActuelle,String nationality, int experience, @Size(max = 40) String nom,
-                       @Size(max = 40) String prenom, long numtel, Date dateNaissance,  String motivationtext, byte[] portefolio, byte[] cv) {
-        super(email, username, password);
+
+    /*public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password,
+                       String entrepriseActuelle,String nationality, int experience, String name,
+                        String surname, long numtel, Date dateNaissance,  String motivationtext, byte[] portefolio, byte[] cv) {
+        super(email, username, password, numtel , nationality, dateNaissance);
         EntrepriseActuelle = entrepriseActuelle;
-        //Nationality = nationality;
         Experience = experience;
-//        this.nom = nom;
-//        this.prenom = prenom;
-//        this.numtel = numtel;
-        //this.dateNaissance = dateNaissance;
+     this.name = name;
+      this.surname = surname;
+
         this.motivationtext = motivationtext;
         this.portefolio = portefolio;
         this.cv = cv;
@@ -288,8 +305,15 @@ public class Journaliste extends Users  {
         super(email, username, password);
         this.portefolio = portefolio;
         this.cv = cv;
-    }
+    }*/
 
-    public Journaliste() {
-    }
+  /*  public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @Size(min = 6, max = 100, message = "password must be between 6 and 20 character long") String password, @Pattern(regexp = "(^$|[0-9]{11})") String numtel, String nationality, Date dateNaissance, long id, @Size(min = 2, max = 30) String name, @Size(min = 2, max = 30) String surname, int experience, String entrepriseActuelle, String motivationtext) {
+        super(email, username, password, numtel, nationality, dateNaissance);
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        Experience = experience;
+        EntrepriseActuelle = entrepriseActuelle;
+        this.motivationtext = motivationtext;
+    }*/
 }

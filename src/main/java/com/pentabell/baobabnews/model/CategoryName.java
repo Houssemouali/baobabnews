@@ -5,4 +5,5 @@ public enum CategoryName {
     technologie,
     entreprise,
     lifestyle
+
 }
