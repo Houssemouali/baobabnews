@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -64,11 +65,11 @@ public class AuthJournalistController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateInternaute(@Valid @RequestBody LoginJournalistForm loginRequest) {
 
-         authentication = authenticationManager.authenticate(
+        authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        nameUser=authentication.getName();
+        nameUser = authentication.getName();
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         //Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
@@ -77,7 +78,7 @@ public class AuthJournalistController {
 //            System.out.println(currentUserName);
 //        }
         //UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println("User has name: " +nameUser + " id=> " + authentication.getAuthorities());
+        System.out.println("User has name: " + nameUser + " id=> " + authentication.getAuthorities());
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
@@ -154,8 +155,6 @@ public class AuthJournalistController {
     }
 
 
-
-
     public Long getMyIdFromSession(String name) {
         //, LoginJournalistForm loginRequest
 //        Authentication authentication = authenticationManager.authenticate(
@@ -170,9 +169,9 @@ public class AuthJournalistController {
 //        }
 //        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-    //String hdsk = authentication.getName();
-        Long author_id =journalistRepository.authenticatedUser(nameUser);
-        System.out.println("user name"+nameUser+"id"+author_id);
+        //String hdsk = authentication.getName();
+        Long author_id = journalistRepository.authenticatedUser(nameUser);
+        System.out.println("user name" + nameUser + "id" + author_id);
         return author_id;
         //return authentication().getName().compareTo(journalistRepository.authenticatedUser());
     }
@@ -184,15 +183,15 @@ public class AuthJournalistController {
 ////        Authentication authentication = authenticationManager.authenticate(
 ////                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 ////        String hdsk = authentication.getName();
-        Long idss=getMyIdFromSession(nameUser);
-        System.out.println("user id=="+idss);
+        Long idss = getMyIdFromSession(nameUser);
+        System.out.println("user id==" + idss);
 //
 //
 //        Journaliste author = journalistRepository.getOne(journalistRepository.authenticatedUser(hdsk));
 //         Long j_id = journalistRepository.authenticatedUser(hdsk);
 //        System.out.println("id of user" + j_id);
 //getmyarticle -
-        return new ResponseEntity<>(arepo.findArticlesByAuthor(idss),HttpStatus.FOUND);
+        return new ResponseEntity<>(arepo.findArticlesByAuthor(idss), HttpStatus.FOUND);
     }
 
 
@@ -216,4 +215,49 @@ public class AuthJournalistController {
         return arts;
     }
 
+    @GetMapping(path = "/PendingJournalist", produces = MediaType.APPLICATION_JSON_VALUE)
+//@PreAuthorize("hasAuthority('Moderateur') or hasAuthority('ROLE_AMIN')")
+    public Iterable<Journaliste> getPendingJournalist(String status) {
+        status = "en cours";
+        Iterable<Journaliste> Pendingj = journalistRepository.getAllByStatus(status);
+        return Pendingj;
+    }
+
+
+    @PutMapping(value = "/changeStatus/{idUser}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Journaliste> ValidateJournalistStatus(@PathVariable(value = "idUser") Long idUser) {
+        return new ResponseEntity<>(this.updateJournalistStatus(idUser), HttpStatus.ACCEPTED);
+    }
+
+    public Journaliste updateJournalistStatus(long idUser) {
+
+        if (journalistRepository.findById(idUser).isPresent()) {
+            Journaliste existingJournalist = journalistRepository.findById(idUser).get();
+            existingJournalist.setStatus("valid");
+
+
+            Journaliste updatedJournalist = journalistRepository.save(existingJournalist);
+
+            return new Journaliste(updatedJournalist.getName(),
+                    updatedJournalist.getStatus()
+            );
+        } else {
+            return null;
+        }
+    }
+
+    @PutMapping("/j/{name}")
+    public ResponseEntity<Journaliste> updateJ(@PathVariable("id") long id, @RequestBody Journaliste journaliste) {
+        System.out.println("Update RDV with ID = " + id + "...");
+        Optional<Journaliste> journalisteData = journalistRepository.findById(id);
+        if (journalisteData.isPresent()) {
+            Journaliste _journaliste = journalisteData.get();
+            _journaliste.setName(journaliste.getName());
+            _journaliste.setStatus(journaliste.getStatus());
+
+            return new ResponseEntity<>(journalistRepository.save(_journaliste), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

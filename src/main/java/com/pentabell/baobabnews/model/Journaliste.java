@@ -132,6 +132,14 @@ public class Journaliste extends Users  {
 //    }
 
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -271,6 +279,14 @@ public class Journaliste extends Users  {
         this.portefolio = portefolio;
         this.status = status;
     }
+
+    public Journaliste(String name, String status) {
+        super();
+        this.name = name;
+        this.status = status;
+    }
+
+
 //    public Journaliste(String email, String username, String password, String actualEntreprise, String nationality, int experience, String nom, String prenom, String numtel, Date datenaiss, String motivationtext, byte[] cv, byte[] portefolio) {
 //    }
 

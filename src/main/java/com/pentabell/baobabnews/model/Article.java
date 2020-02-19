@@ -189,7 +189,7 @@ private Set<ContentDetails> contentDetails;
 
     }
 
-    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Set<BookedArticle> internautes, Set<ArticleRating> articleRatings, Journaliste author) {
+/*    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Set<BookedArticle> internautes, Set<ArticleRating> articleRatings, Journaliste author) {
         IdArticle = idArticle;
         this.date = date;
         this.status = status;
@@ -201,7 +201,7 @@ private Set<ContentDetails> contentDetails;
         this.internautes = internautes;
         this.articleRatings = articleRatings;
         this.author = author;
-    }
+    }*/
 
 //    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {
 //    }
@@ -219,7 +219,25 @@ private Set<ContentDetails> contentDetails;
         IdArticle = idArticle;
     }
 
+    public String getLink() {
+        return link;
+    }
 
+    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Journaliste author) {
+        IdArticle = idArticle;
+        this.date = date;
+        this.status = status;
+        this.link = link;
+        this.tags = tags;
+        this.countries = countries;
+        this.contentDetails = contentDetails;
+        this.categories = categories;
+        this.author = author;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public Date getDate() {
         return date;

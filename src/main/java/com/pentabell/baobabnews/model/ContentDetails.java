@@ -11,12 +11,12 @@ public class ContentDetails {
     private int id;
 
     @NotNull
-    @Column(name = "content_text")
+    @Column(name = "content")
     @Lob
     private String content;
 
     @NotNull
-    @Column(name = "title")
+    @Column(name = "titre")
     private String titre;
 
 //    @OneToOne(fetch = FetchType.LAZY,
@@ -62,10 +62,28 @@ public class ContentDetails {
         return languageArticle;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
     public void setLanguageArticle(Language languageArticle) {
         this.languageArticle = languageArticle;
     }
 
+    public ContentDetails() {
+    }
 //    public Long getArticle() {
 //        return article.getIdArticle();
 //    }
