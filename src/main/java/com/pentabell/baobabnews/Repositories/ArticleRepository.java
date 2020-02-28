@@ -27,4 +27,18 @@ public interface ArticleRepository extends CrudRepository<Article,Long> {
             "INNER JOIN journaliste as j ON a.journalist_id = j.id_user"
             +" where j.id_user =:journalist_id", nativeQuery = true)
     List<Article> findArticlesByAuthor (@Param("journalist_id") Long JournalistId);
+
+    @Query(value="SELECT * "+
+            "FROM article as a " +
+            ", category as c " +
+            ", content_details as cd " +
+            ", article_categories as aca " +
+            ", article_content as aco "+
+            "where a.id_article= aca.article_id " +
+            "AND a.id_article = aco.article_id " +
+            "AND c.id = aca.category_id " +
+            "AND cd.id = aco.content_id " +
+            "and c.name =:category_name " +
+            "ORDER BY date_created desc ",nativeQuery = true)
+    List<Article>findArticlesByCategory(String category_name);
 }

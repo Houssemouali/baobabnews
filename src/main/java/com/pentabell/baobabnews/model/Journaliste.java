@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalIdCache;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -50,8 +51,8 @@ public class Journaliste extends Users  {
     //CV
     @Lob
     @Column(name = "cv", columnDefinition="BLOB")
+    //private MultipartFile cv;
     private byte[] cv;
-
     //@NotNull
     //@NotEmpty
     @Column(name="yearsofExperience")
@@ -84,6 +85,12 @@ public class Journaliste extends Users  {
             },
             mappedBy = "journalists")
     private Set<Internaute> internautes = new HashSet<>();
+
+    public Journaliste(String nom, String status) {
+        this.nom=nom;
+        this.status=status;
+
+    }
 
 
     //sign a problem
@@ -284,7 +291,7 @@ public class Journaliste extends Users  {
     }
 
 
-    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, byte[] portefolio, byte[] cv) {
+    public Journaliste(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, byte[] portefolio,byte[] cv) {
         super(email, username, password);
         this.portefolio = portefolio;
         this.cv = cv;

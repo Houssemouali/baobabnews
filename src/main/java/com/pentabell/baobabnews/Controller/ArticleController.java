@@ -71,7 +71,7 @@ public class ArticleController {
     private AuthJournalistController journalistDetails;
 
 
-//    public Category getCatbyId(Long catID){
+    //    public Category getCatbyId(Long catID){
 //        return categoryList.stream().filter(
 //                (category) -> category.getId()==catID
 //        ).findFirst().get();
@@ -79,7 +79,7 @@ public class ArticleController {
 //, @RequestParam("files") MultipartFile files
     @PostMapping(path = "/AddArticle")
     @ResponseBody
-    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article,ContentDetailsForm contentform) {
+    public ResponseEntity<?> addArticle(@RequestBody @Valid ArticleForm article, ContentDetailsForm contentform) {
 //       for(Category c:article.getCategories()){
 //              Category cc=categoryService.getCatbyId(c.getId());
 //                     // cra.getOne(c.getId());
@@ -90,19 +90,19 @@ public class ArticleController {
 
 //        articleService.uploadFile(files);
 //        String filename=files.getOriginalFilename();
-        Article articlef = new Article(article.getDate(),article.getStatus());
+        Article articlef = new Article(article.getDate(), article.getStatus());
         Set<String> strCategory = article.getCategory();
         Set<Category> categories = new HashSet<>();
         //Language strlang = article.getLanguageArticle();
         Journaliste strauthor = article.getAuthor();
         //ContentDetails contenus=article.getContentDetails();
-        HashSet<ContentDetails>setContent=article.getContentDetails();
+        HashSet<ContentDetails> setContent = article.getContentDetails();
         HashSet<Tag> strtag = article.getTags();
         HashSet<Country> strcountry = article.getCountries();
-        long id_article=articlef.getIdArticle();
+        long id_article = articlef.getIdArticle();
 //        Language lang=new Language();
 //        Journaliste author=new Journaliste();
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         strCategory.forEach(category -> {
             switch (category) {
                 case "economie":
@@ -136,7 +136,7 @@ public class ArticleController {
         articlef.setCountries(strcountry);
         articlef.setContentDetails(setContent);
         //arepo.save(articlef);
-        System.out.println("---------"+id_article);
+        System.out.println("---------" + id_article);
         return new ResponseEntity<>(arepo.save(articlef), HttpStatus.CREATED);
         //return arepo.save(article);
         //return cra.save(category);
@@ -191,16 +191,16 @@ public class ArticleController {
         return response;
     }
 
-    @RequestMapping(value="/{id}")
-    public Article getArticle(@PathVariable Long id ){
+    @RequestMapping(value = "/{id}")
+    public Article getArticle(@PathVariable Long id) {
         return articleService.checkIfIdIsPresentandReturnAuthor(id);
     }
 
     //Search Article
     //example of link in json http://localhost:8080/api/article/articleFind?search=(titre:'test lundi')
     @GetMapping("/articleFind")
-    public ResponseEntity<List<Article>> searchForCars(@SearchSpec Specification<Article> articleSpecification){
-        return new ResponseEntity<>(ArtRepo.findAll(Specification.where(articleSpecification)),HttpStatus.FOUND);
+    public ResponseEntity<List<Article>> searchForCars(@SearchSpec Specification<Article> articleSpecification) {
+        return new ResponseEntity<>(ArtRepo.findAll(Specification.where(articleSpecification)), HttpStatus.FOUND);
     }
 //
 //    @GetMapping(value="/articleBy/{journalistId}")
@@ -209,4 +209,50 @@ public class ArticleController {
 //        return arepo.findArticlesByAuthor(journalistId);
 //    }
 
+    @ResponseBody
+    @GetMapping("/edit/{idArticle}")
+    public Optional<Article> editArticle(@PathVariable Long idArticle)
+    { return arepo.findById(idArticle);}
+
+
+    //get by category economie {}
+    @GetMapping(path = "/ByCatEco", produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAuthority('Moderateur') or hasAuthority('ROLE_AMIN')")
+    public ResponseEntity<?> getArtByCatEco(String category_name) {
+        category_name = "economie";
+        Iterable<Article> EconomyArticle = arepo.findArticlesByCategory(category_name);
+        return new ResponseEntity<>(EconomyArticle, HttpStatus.FOUND);
+    }
+
+    //get by category lifestyle {}
+    @GetMapping(path = "/ByCatlifestyle", produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAuthority('Moderateur') or hasAuthority('ROLE_AMIN')")
+    public ResponseEntity<?> getArtByCatlifestyle(String category_name) {
+        category_name = "lifestyle";
+        Iterable<Article> EconomyArticle = arepo.findArticlesByCategory(category_name);
+        return new ResponseEntity<>(EconomyArticle, HttpStatus.FOUND);
+    }
+
+    //get by category lifestyle {Status valid to add next }
+    @GetMapping(path = "/ByCattech", produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAuthority('Moderateur') or hasAuthority('ROLE_AMIN')")
+    public ResponseEntity<?> getArtByCatTechnologie(String category_name) {
+        category_name = "technologie";
+        Iterable<Article> TechArticle = arepo.findArticlesByCategory(category_name);
+        if (TechArticle != null){
+            return new ResponseEntity<>(TechArticle, HttpStatus.FOUND);}
+        else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    //get by category lifestyle {ajout du condition not found}
+    @GetMapping(path = "/ByCatEntreprise", produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAuthority('Moderateur') or hasAuthority('ROLE_AMIN')")
+    public ResponseEntity<?> getArtByCatEntreprise(String category_name) {
+        category_name = "entreprise";
+        return Optional.ofNullable(arepo.findArticlesByCategory(category_name))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
+    }
 }

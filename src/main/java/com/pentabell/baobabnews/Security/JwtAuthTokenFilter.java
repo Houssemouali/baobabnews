@@ -47,9 +47,18 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
                 Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                         .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                Role mRole = roleRepository.findByName(RoleName.ROLE_Moderateur)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Moderator Role not found."));
+                Role jRole = roleRepository.findByName(RoleName.ROLE_Journalist)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Journalist Role not found."));
+                Role uRole = roleRepository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Moderator Role not found."));
                 //IHRUser userhr = PatchApplication.getSession().retrieveUser(virtualSessionId);
                 Users user = new Users(username);
                 roles.add(adminRole);
+                roles.add(mRole);
+                roles.add(jRole);
+                roles.add(uRole);
                 user.setRoles(roles);
                 UserDetails userDetails = UserPrinciple.build(user) ;
                 authentication = new UsernamePasswordAuthenticationToken(

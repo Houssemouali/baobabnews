@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -77,10 +78,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         auth
 
                 .inMemoryAuthentication()
-//                .withUser("user").password("password").roles("ADMIN").and()
-//                .withUser("user").password("password").roles("Moderateur").and()
-//                .withUser("user").password("password").roles("Journalist");
-                .withUser("user").password("password").roles("USER","ADMIN","Journalist","Moderateur");
+                .withUser("admin").password("admin").authorities("ROLE_ADMIN").and()
+                .withUser("moderator").password("moderator").authorities("ROLE_Moderateur").and()
+                .withUser("journalist").password("journalist").authorities("ROLE_Journalist").and()
+                .withUser("user").password("user").authorities("ROLE_USER");
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -105,20 +106,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 //                .authenticated().and()
         http.cors().and().csrf().disable().
                 authorizeRequests()
-               .antMatchers("/api/**","/journalist/**").permitAll()
-//                .antMatchers("/journalist/auth/signin/**").permitAll()
-//                .antMatchers("/api/Moderator/signin/**").permitAll()
-                //.antMatchers("/api/**","/journalist/**").permitAll()
+                .antMatchers("/journalist/**","/api/admin/**","/api/auth","/api/Moderator/**").permitAll()
+
+                .antMatchers("/journalist/auth/**").access("hasRole('ROLE_Journalist')")
+                .antMatchers("/api/Moderator/**").access("hasRole('ROLE_Moderateur')")
+                .antMatchers("/api/admin/auth/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/auth/**").access("hasRole('ROLE_USER')")
+               .and()
+                .formLogin()
+                    .loginPage("/journalist/auth/signin").permitAll()
+                    .loginPage("/api/Moderator/signin").permitAll()
+
+                .loginProcessingUrl("/journalist/auth/signin") // login proccesing url where authentication happens
+
+                //  .antMatchers("/api/Moderator/PendingJournalist").hasRole("Moderateur")
+
+//
+//                .antMatchers("/journalist/auth/signin").hasRole("Journalist")
+//               .antMatchers("/api/Moderator/signin").hasRole("Moderateur")
+                //.antMatchers("/api/Moderator/**","/api/Admin/**","/journalist/auth/**").permitAll()
                 //.hasRole("ADMIN")
 //                .antMatchers("/journalist/**").hasRole("Journalist")
-//                .antMatchers("/api/Moderator/**").hasRole("Moderateur")
-                .anyRequest().authenticated()  .and()
-//                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//              .antMatchers("/api/Moderator/**").hasRole("Moderateur")
+//                .antMatchers("/journalist/auth/**").hasRole("Journalist")
+//                .antMatchers("/api/admin/auth/**").hasRole("ADMIN")
+                //.anyRequest().authenticated().
+              .and().httpBasic().and()
+
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 //                .and()
-                .httpBasic()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

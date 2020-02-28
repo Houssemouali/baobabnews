@@ -1,6 +1,7 @@
 package com.pentabell.baobabnews.model.Requests;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.Lob;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.File;
 import java.util.Date;
 import java.util.Set;
 
@@ -62,8 +64,8 @@ public class SignUpJournalistForm {
     //CV
     @Lob
     //@Column(name = "cv", columnDefinition="BLOB")
+    //private MultipartFile cv;
     private byte[] cv;
-
 
     public String getUsername() {
         return username;
