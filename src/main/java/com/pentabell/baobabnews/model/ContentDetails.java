@@ -30,15 +30,15 @@ public class ContentDetails {
 //    private Article article;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(name="Article_Content",
-            joinColumns = @JoinColumn(name="content_id"),
-            inverseJoinColumns  =@JoinColumn(name="article_id"))
+    @JoinTable(name = "Article_Content",
+            joinColumns = @JoinColumn(name = "content_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Article article;
-//    @OneToOne(fetch = FetchType.LAZY,optional = false )
+    //    @OneToOne(fetch = FetchType.LAZY,optional = false )
 //    @JoinColumn(name="language_id",nullable=false,unique = false)
 //
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JoinColumn(name="language_id")
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
     private Language languageArticle;
 
 
@@ -62,28 +62,10 @@ public class ContentDetails {
         return languageArticle;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Article getArticle() {
-        return article;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
-    }
-
     public void setLanguageArticle(Language languageArticle) {
         this.languageArticle = languageArticle;
     }
 
-    public ContentDetails() {
-    }
 //    public Long getArticle() {
 //        return article.getIdArticle();
 //    }

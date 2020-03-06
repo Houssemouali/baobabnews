@@ -20,7 +20,7 @@ public class BookedArticle{
             cascade = CascadeType.PERSIST,
             targetEntity=Article.class)
     @JoinColumn(
-      name = "IdArticle", insertable = false, updatable = false)
+            name = "idArticle", insertable = false, updatable = false)
     //@MapsId("ArticleID")
     private Article articles;
 

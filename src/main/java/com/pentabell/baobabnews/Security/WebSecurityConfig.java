@@ -77,10 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
         auth
 
                 .inMemoryAuthentication()
-//                .withUser("user").password("password").roles("ADMIN").and()
-//                .withUser("user").password("password").roles("Moderateur").and()
-//                .withUser("user").password("password").roles("Journalist");
-                .withUser("user").password("password").roles("USER","ADMIN","Journalist","Moderateur");
+                .withUser("admin").password("admin").authorities("ROLE_ADMIN").and()
+                .withUser("moderator").password("moderator").authorities("ROLE_Moderateur").and()
+                .withUser("journalist").password("journalist").authorities("ROLE_Journalist").and()
+                .withUser("user").password("user").authorities("ROLE_USER");
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -105,20 +105,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 //                .authenticated().and()
         http.cors().and().csrf().disable().
                 authorizeRequests()
-               .antMatchers("/api/**","/journalist/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+//                .antMatchers("/api/journalist/**").permitAll()
+//                .antMatchers("/api/Moderator/**").authenticated()
+//                .antMatchers("/api/admin/**").authenticated()
+//                .antMatchers("/api/user/**").access("hasRole('ROLE_USER')")
+
+                .antMatchers("/api/**").permitAll()
+
 //                .antMatchers("/journalist/auth/signin/**").permitAll()
 //                .antMatchers("/api/Moderator/signin/**").permitAll()
                 //.antMatchers("/api/**","/journalist/**").permitAll()
                 //.hasRole("ADMIN")
 //                .antMatchers("/journalist/**").hasRole("Journalist")
 //                .antMatchers("/api/Moderator/**").hasRole("Moderateur")
-                .anyRequest().authenticated()  .and()
+//                .anyRequest().authenticated()
+                .and()
 //                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 //                .and()
-                .httpBasic()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .httpBasic();
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

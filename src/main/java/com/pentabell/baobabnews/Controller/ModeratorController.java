@@ -23,33 +23,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/Moderator/")
 public class ModeratorController {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtProvider jwtProvider;
 
-    @Autowired
-    PasswordEncoder encoder;
-
-    //@PreAuthorize("hasRole('Moderateur')")
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateModerator(@Valid @RequestBody LoginModeratorForm loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String currentUserName = authentication.getName();
-//            System.out.println(currentUserName);
-//        }
-        //UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println("User has name: " + userDetails.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
-    }
 }

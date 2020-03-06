@@ -21,7 +21,7 @@ public class Article implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name = "Article_ID", unique = true, nullable = false)
-    private long IdArticle;
+    private long idArticle;
 
 //    @Lob
 //    @Column(name="image", columnDefinition="mediumblob")
@@ -189,21 +189,37 @@ private Set<ContentDetails> contentDetails;
 
     }
 
-/*    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Set<BookedArticle> internautes, Set<ArticleRating> articleRatings, Journaliste author) {
-        IdArticle = idArticle;
+//    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Set<BookedArticle> internautes, Set<ArticleRating> articleRatings, Journaliste author) {
+//        this.idArticle = idArticle;
+//        this.date = date;
+//        this.status = status;
+//        this.link = link;
+//        this.tags = tags;
+//        this.countries = countries;
+//        this.contentDetails = contentDetails;
+//        this.categories = categories;
+//        this.internautes = internautes;
+//        this.articleRatings = articleRatings;
+//        this.author = author;
+//    }
+
+    public Article(long idArticle, @NotNull Date date, String status, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Journaliste author) {
+        this.idArticle = idArticle;
         this.date = date;
         this.status = status;
-        this.link = link;
         this.tags = tags;
         this.countries = countries;
         this.contentDetails = contentDetails;
         this.categories = categories;
-        this.internautes = internautes;
-        this.articleRatings = articleRatings;
         this.author = author;
-    }*/
+    }
 
-//    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {
+    public Article(String status, Set<ContentDetails> contentDetails) {
+        this.status = status;
+        this.contentDetails = contentDetails;
+    }
+
+    //    public Article(String titre, String content, Date date, Language languageArticle, Journaliste author, Set<Tag> tags, Set<Category> categories, Set<Country> countries) {
 //    }
     //    public void addCategory(Category c){
 //        this.getCategories().add(c);
@@ -211,28 +227,17 @@ private Set<ContentDetails> contentDetails;
 //        c.getArticles().add(this);
 //    }
 
+
     public long getIdArticle() {
-        return IdArticle;
+        return idArticle;
     }
 
     public void setIdArticle(long idArticle) {
-        IdArticle = idArticle;
+        this.idArticle = idArticle;
     }
 
     public String getLink() {
         return link;
-    }
-
-    public Article(long idArticle, @NotNull Date date, String status, String link, Set<Tag> tags, Set<Country> countries, Set<ContentDetails> contentDetails, Set<Category> categories, Journaliste author) {
-        IdArticle = idArticle;
-        this.date = date;
-        this.status = status;
-        this.link = link;
-        this.tags = tags;
-        this.countries = countries;
-        this.contentDetails = contentDetails;
-        this.categories = categories;
-        this.author = author;
     }
 
     public void setLink(String link) {
