@@ -24,7 +24,7 @@ public class ArticleRating {
             cascade = CascadeType.PERSIST,
             targetEntity=Article.class)
     @JoinColumn(
-      name = "IdArticle", insertable = false, updatable = false)
+            name = "idArticle", insertable = false, updatable = false)
     @MapsId("ArticleID")
     //Set<Article> articlesSet;
     private Article articlesSet;

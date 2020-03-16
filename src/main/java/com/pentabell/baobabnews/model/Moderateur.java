@@ -43,4 +43,7 @@ public class Moderateur extends Users {
 
     public Moderateur() {
     }
+    //    public Moderateur() {
+//        super(email, username, password, numtel, nationality);
+//    }
 }

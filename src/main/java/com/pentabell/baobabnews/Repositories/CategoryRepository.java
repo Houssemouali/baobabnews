@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 //@Transactional(propagation = Propagation.MANDATORY)
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findByName(CategoryName categoryName);
+
+    Optional<Category> getByName(String name);
 }

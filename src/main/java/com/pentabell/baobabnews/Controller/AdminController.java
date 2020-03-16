@@ -33,7 +33,7 @@ import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/admin/auth")
+@RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -53,27 +53,6 @@ public class AdminController {
     @Autowired
     RoleRepository roleRepository;
 
-    @PostMapping("/signin")
-    //@PreAuthorize("hasRole('ADMIN')")
-    //@Secured({"ROLE_ADMIN"})
-    public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginAdminForm loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String currentUserName = authentication.getName();
-//            System.out.println(currentUserName);
-//        }
-        //UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println("User has name: " + userDetails.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
-    }
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/signup_moderator")
     public ResponseEntity<?> registerModerator(@Valid @RequestBody SignUpModeratorForm moderatorForm){
@@ -124,47 +103,6 @@ public class AdminController {
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
-    @PostMapping("/signup_admin")
-    public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignUpAdminForm adminFormForm){
-        if (mRepo.existsByUsername(adminFormForm.getUsername())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
-        }
 
-        if (mRepo.existsByEmail(adminFormForm.getEmail())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        Admin user=new Admin(adminFormForm.getEmail(),
-                adminFormForm.getUsername(),
-                encoder.encode(adminFormForm.getPassword()),
-                adminFormForm.getNumtel(),
-               adminFormForm.getNationality(),
-                adminFormForm.getDatenaiss()
-        );
-
-        Set<String> strRoles = adminFormForm.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        strRoles.forEach(role->{
-            switch (role){
-//                case "admin":
-//                    Role mRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-//                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Admin Role not find."));
-//                    roles.add(mRole);
-//
-//                    break;
-                default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(userRole);
-            }
-        });
-        user.setRoles(roles);
-        adminRepository.save(user);
-        return new ResponseEntity<>(new ResponseMessage("Admin registered successfully"),HttpStatus.CREATED);
-    }
 
 }

@@ -17,6 +17,7 @@ import com.pentabell.baobabnews.model.Requests.SignUpJournalistForm;
 import com.pentabell.baobabnews.model.Response.ResponseMessage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
+<<<<<<< HEAD
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -43,13 +45,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+=======
+import java.util.*;
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/journalist/auth")
+@RequestMapping("/auth/journalist")
 public class AuthJournalistController {
 
     @Autowired
@@ -58,8 +63,6 @@ public class AuthJournalistController {
     @Autowired
     JournalistRepository journalistRepository;
 
-    @Autowired
-    ArticleRepository arepo;
     @Autowired
     JwtProvider jwtProvider;
 
@@ -71,7 +74,11 @@ public class AuthJournalistController {
 //    @Autowired
 //    FilesJournalistService filesJournalistService;
 
+
     private Authentication authentication;
+    @Autowired
+    ArticleRepository arepo;
+
     private String nameUser;
 
     @Autowired
@@ -90,21 +97,24 @@ public class AuthJournalistController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateInternaute(@Valid @RequestBody LoginJournalistForm loginRequest) {
 
-         authentication = authenticationManager.authenticate(
+        authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        nameUser=authentication.getName();
+        nameUser = authentication.getName();
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//            String currentUserName = authentication.getName();
-//            System.out.println(currentUserName);
-//        }
-        //UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println("User has name: " +nameUser + " id=> " + authentication.getAuthorities());
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+        ArrayList<String> sRo = new ArrayList<String>();
+        sRo.add("ROLE_Journalist");
+        ArrayList<String> lstAuth = new ArrayList<String>();
+        lstAuth.add(userDetails.getAuthorities().toString().replace("[ROLE_Journalist]", "ROLE_Journalist"));
+        System.out.println("the auth list contain =" + lstAuth);
+        if (lstAuth.containsAll(sRo)) {
+            System.out.println("User has name: " + nameUser + " id=> " + authentication.getAuthorities());
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+        } else
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("ACCESS DENIED");
     }
 
     //,@RequestParam("file") MultipartFile cvfile,@RequestParam("file") MultipartFile portefoliofile
@@ -154,16 +164,22 @@ public class AuthJournalistController {
 //        InputStream issFile=file.getInputStream();
 
         Journaliste user = new Journaliste(signUpRequest.getEmail(),
+<<<<<<< HEAD
                         signUpRequest.getUsername(),
                         encoder.encode(signUpRequest.getPassword()),
                         signUpRequest.getNumtel(),
+=======
+                signUpRequest.getUsername(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getNumtel(),
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327
                 signUpRequest.getNationality(),
                 signUpRequest.getDatenaiss(),
                 signUpRequest.getExperience(),
                 signUpRequest.getActualEntreprise(),
                 signUpRequest.getMotivationtext(),
-                signUpRequest.getNom(),
-                signUpRequest.getPrenom(),
+                signUpRequest.getName(),
+                signUpRequest.getSurname(),
                 signUpRequest.getCv(),
                 //file,
                 signUpRequest.getPortefolio(),
@@ -239,6 +255,7 @@ public class AuthJournalistController {
     @RequestMapping("send-mail")
     public String send() {
 
+<<<<<<< HEAD
         /*
          * Creating a User with the help of User class that we have declared and setting
          * Email address of the sender.
@@ -341,3 +358,6 @@ public class AuthJournalistController {
     }
 
 }
+=======
+}
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327

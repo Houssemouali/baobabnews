@@ -15,36 +15,40 @@ import java.util.Set;
 
 public class SignUpJournalistForm {
 
-    @NotBlank
-    @Size(min = 2, max = 30)
-    private String nom;
+    /*@NotBlank
+    @Size(min = 2, max = 30)*/
+    private String name;
 
-    @NotBlank
-    @Size(min = 2, max = 30)
-    private String prenom;
+    /*@NotBlank
+    @Size(min = 2, max = 30)*/
+    private String surname;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
+    /*   @NotBlank
+       @Size(min = 3, max = 50)*/
     private String username;
 
-    @NotBlank
-    @Size(max = 60)
-    @Email
+    /*  @NotBlank
+      @Size(max = 60)
+      @Email*/
     private String email;
 
     private Set<String> role;
 
-    @NotBlank
-    @Size(min = 6, max = 100)
+    /*  @NotBlank
+      @Size(min = 6, max = 100)*/
     private String password;
 
-    @NotBlank
+    /*
+        @NotBlank
+    */
     private String nationality;
 
     //@NotBlank
     private String actualEntreprise;
 
-    @NotNull
+    /*
+        @NotNull
+    */
     private int experience;
 
 
@@ -67,6 +71,26 @@ public class SignUpJournalistForm {
     //private MultipartFile cv;
     private byte[] cv;
 
+<<<<<<< HEAD
+=======
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327
     public String getUsername() {
         return username;
     }
@@ -90,13 +114,13 @@ public class SignUpJournalistForm {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    public Set<String> getRole() {
-    	return this.role;
+
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setRole(Set<String> role) {
-    	this.role = role;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public String getActualEntreprise() {
@@ -107,36 +131,12 @@ public class SignUpJournalistForm {
         this.actualEntreprise = actualEntreprise;
     }
 
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
     public int getExperience() {
         return experience;
     }
 
     public void setExperience(int experience) {
         this.experience = experience;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
     }
 
     public String getNumtel() {
@@ -161,6 +161,14 @@ public class SignUpJournalistForm {
 
     public void setDatenaiss(Date datenaiss) {
         this.datenaiss = datenaiss;
+    }
+
+    public Set<String> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<String> role) {
+        this.role = role;
     }
 
     public byte[] getPortefolio() {

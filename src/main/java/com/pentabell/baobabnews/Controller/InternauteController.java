@@ -23,14 +23,14 @@ public class InternauteController {
 //        return ir.save(user);
 //
 //    }
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addParty(@RequestBody Internaute user) {
-        return new ResponseEntity<>(ir.save(user), HttpStatus.CREATED);
-    }
-
-    @GetMapping(path="/",produces= MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin("*")
-    public Iterable<Internaute> getAllData() {
-        return ir.findAll();
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public ResponseEntity<?> addParty(@RequestBody Internaute user) {
+//        return new ResponseEntity<>(ir.save(user), HttpStatus.CREATED);
+//    }
+//
+//    @GetMapping(path="/",produces= MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin("*")
+//    public Iterable<Internaute> getAllData() {
+//        return ir.findAll();
+//    }
 }

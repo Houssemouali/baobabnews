@@ -32,12 +32,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/Moderator/")
 public class ModeratorController {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtProvider jwtProvider;
 
+<<<<<<< HEAD
     @Autowired
     PasswordEncoder encoder;
 
@@ -82,4 +79,6 @@ public class ModeratorController {
         Iterable<Journaliste> Pendingj=journalistRepository.getAllByStatus(status);
         return Pendingj;
     }
+=======
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327
 }

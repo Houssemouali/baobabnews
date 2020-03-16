@@ -11,12 +11,12 @@ public class ContentDetails {
     private int id;
 
     @NotNull
-    @Column(name = "content_text")
+    @Column(name = "content")
     @Lob
     private String content;
 
     @NotNull
-    @Column(name = "title")
+    @Column(name = "titre")
     private String titre;
 
 //    @OneToOne(fetch = FetchType.LAZY,
@@ -30,15 +30,15 @@ public class ContentDetails {
 //    private Article article;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(name="Article_Content",
-            joinColumns = @JoinColumn(name="content_id"),
-            inverseJoinColumns  =@JoinColumn(name="article_id"))
+    @JoinTable(name = "Article_Content",
+            joinColumns = @JoinColumn(name = "content_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Article article;
-//    @OneToOne(fetch = FetchType.LAZY,optional = false )
+    //    @OneToOne(fetch = FetchType.LAZY,optional = false )
 //    @JoinColumn(name="language_id",nullable=false,unique = false)
 //
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JoinColumn(name="language_id")
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
     private Language languageArticle;
 
 

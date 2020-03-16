@@ -106,6 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 //                .authenticated().and()
         http.cors().and().csrf().disable().
                 authorizeRequests()
+<<<<<<< HEAD
                 .antMatchers("/journalist/**","/api/admin/**","/api/auth","/api/Moderator/**").permitAll()
 
                 .antMatchers("/journalist/auth/**").access("hasRole('ROLE_Journalist')")
@@ -136,6 +137,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 //                .and()
+=======
+                .antMatchers("/auth/**").permitAll()
+//                .antMatchers("/api/journalist/**").permitAll()
+//                .antMatchers("/api/Moderator/**").authenticated()
+//                .antMatchers("/api/admin/**").authenticated()
+//                .antMatchers("/api/user/**").access("hasRole('ROLE_USER')")
+
+                .antMatchers("/api/**").permitAll()
+
+//                .antMatchers("/journalist/auth/signin/**").permitAll()
+//                .antMatchers("/api/Moderator/signin/**").permitAll()
+                //.antMatchers("/api/**","/journalist/**").permitAll()
+                //.hasRole("ADMIN")
+//                .antMatchers("/journalist/**").hasRole("Journalist")
+//                .antMatchers("/api/Moderator/**").hasRole("Moderateur")
+//                .anyRequest().authenticated()
+                .and()
+//                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//                .and()
+                .httpBasic();
+//                .and()
+>>>>>>> 921aaff7a4eb24b3a81ecdfe1e893c00126a3327
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

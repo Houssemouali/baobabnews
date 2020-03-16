@@ -26,7 +26,7 @@ public class Language {
 //    private Set<Article>articles;
 
     @OneToMany(fetch = FetchType.LAZY,
-            cascade =  CascadeType.MERGE,
+            cascade = {CascadeType.MERGE},
             mappedBy = "languageArticle")
     private Set<ContentDetails> contentDetails;
 
