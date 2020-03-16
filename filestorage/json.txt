@@ -1,0 +1,34 @@
+{
+    "title": "test 44" ,
+    "content": "test 44test 44test 44",
+	 "language":{"id":2},
+    "author":{"id":2},
+    "category":["finance"],
+    "tags":[{"id":2}],
+    "country":[{"id":1}]
+}
+
+article avec extend user
+
+{
+    "title": "worst tv series ",
+    "content": "handmaid tails,friends",
+    "language": {
+        "id": 1
+    },
+    "category": [
+        "lifestyle"
+    ],
+    "author": {"idUser":2}
+       ,
+    "tags": [
+        {
+            "id": 1
+        }
+    ],
+    "country": [
+        {
+            "id": 1
+        }
+    ]
+}
